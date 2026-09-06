@@ -13,7 +13,8 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "about",
   description:
-    "why ramya exists — making ai affordable without sacrifices. local first, cloud when it counts, built in india for the world.",
+    "why ramya ai exists — making ai affordable without sacrifices. the hybrid agent platform: local first, cloud when it counts, built in india for the world.",
+  alternates: { canonical: "/about" },
 };
 
 const PRINCIPLES = [

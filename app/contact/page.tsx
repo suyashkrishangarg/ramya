@@ -13,7 +13,8 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "contact",
   description:
-    "talk to the ramya ai team — feedback, partnerships, press, or beta questions.",
+    "contact the ramya ai team — feedback, partnerships, press, or questions about the aura desktop beta and the hybrid agent platform.",
+  alternates: { canonical: "/contact" },
 };
 
 export default async function ContactPage() {

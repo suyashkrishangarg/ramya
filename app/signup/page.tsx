@@ -17,7 +17,8 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "sign up",
   description:
-    "join the ramya ai waitlist — lock your position for the aura desktop beta. one signup covers ramya flow early access too.",
+    "sign up for the ramya ai waitlist — lock your position for the aura desktop beta, the affordable hybrid agent platform. one signup covers ramya flow early access too.",
+  alternates: { canonical: "/signup" },
 };
 
 type SignupProps = {

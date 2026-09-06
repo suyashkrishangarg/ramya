@@ -12,6 +12,7 @@ import { CostCalculator } from "@/components/cost-calculator";
 import { FromIndia } from "@/components/home/from-india";
 import { CtaBand } from "@/components/home/cta-band";
 import { Faq, type FaqItem } from "@/components/faq";
+import { JsonLd } from "@/components/json-ld";
 import { getCurrentMember } from "@/lib/member";
 
 const FAQ_ITEMS: FaqItem[] = [
@@ -92,6 +93,17 @@ export default async function Home({ searchParams }: HomeProps) {
             </Reveal>
           </div>
         </section>
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: FAQ_ITEMS.map((item) => ({
+              "@type": "Question",
+              name: item.q,
+              acceptedAnswer: { "@type": "Answer", text: item.a },
+            })),
+          }}
+        />
         <CtaBand />
       </main>
       <Footer />

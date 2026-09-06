@@ -6,16 +6,20 @@ import { ListRow } from "@/components/list-row";
 import { Reveal } from "@/components/reveal";
 import { CursorGlow } from "@/components/cursor-glow";
 import { TaskRouter } from "@/components/task-router";
+import { JsonLd } from "@/components/json-ld";
 import { PrimaryButton, GhostButton } from "@/components/buttons";
 import { CtaBand } from "@/components/home/cta-band";
 import { getCurrentMember } from "@/lib/member";
 
 export const dynamic = "force-dynamic";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ramyaai.tech";
+
 export const metadata: Metadata = {
   title: "products",
   description:
-    "aura desktop — the universal hybrid agent platform. ramya flow — the video & animation generation platform. one hybrid engine: local first, cloud when it counts.",
+    "aura desktop — the universal hybrid agent platform and free local ai engine. ramya flow — the text-to-video generation platform. one hybrid engine: local first, cloud when it counts.",
+  alternates: { canonical: "/products" },
 };
 
 const AURA_FEATURES = [
@@ -255,7 +259,10 @@ export default async function ProductsPage() {
                 <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted">
                   the universal hybrid agent platform — runs routine work locally for
                   free, escalates deep reasoning to cost-optimized cloud models, and
-                  automates workflows across your desktop apps.
+                  automates workflows across your desktop apps. a cost-aware
+                  companion to the agentic tools you already use — claude code,
+                  cursor, chatgpt — absorbing the routine 80% of the work locally,
+                  for free.
                 </p>
                 <div className="mt-5 flex flex-wrap gap-x-3 gap-y-2 font-mono text-[10px] tracking-[0.08em] text-dim">
                   <span>1-click install</span>
@@ -431,6 +438,44 @@ export default async function ProductsPage() {
         </section>
 
         <CtaBand />
+        <JsonLd
+          data={[
+            {
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "aura desktop",
+              applicationCategory: "DeveloperApplication",
+              operatingSystem: "Windows, macOS, Linux",
+              description:
+                "the universal hybrid agent platform — routine ai work runs locally for free, deep reasoning escalates to cost-optimized cloud models, and workflows automate across desktop apps.",
+              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+              publisher: { "@type": "Organization", name: "ramya ai" },
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "ramya flow",
+              applicationCategory: "MultimediaApplication",
+              operatingSystem: "Web",
+              description:
+                "a web-based video & animation generation platform — describe an idea, get a motion piece. in early idea phase.",
+              publisher: { "@type": "Organization", name: "ramya ai" },
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "home", item: siteUrl },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "products",
+                  item: `${siteUrl}/products`,
+                },
+              ],
+            },
+          ]}
+        />
       </main>
       <Footer />
     </>
