@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Logo } from "./logo";
 import { PrimaryButton } from "./buttons";
 
 const LINKS = [
+  { href: "/", label: "home" },
   { href: "/products", label: "products" },
   { href: "/about", label: "about" },
   { href: "/contact", label: "contact" },
@@ -16,6 +18,9 @@ type NavMember = { name: string | null; position: number } | null;
 export function Nav({ member }: { member?: NavMember }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) => pathname === href;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -40,7 +45,10 @@ export function Nav({ member }: { member?: NavMember }) {
             <Link
               key={l.href}
               href={l.href}
-              className="link-draw font-mono text-[11px] tracking-[0.12em] text-muted transition-colors duration-150 hover:text-ink"
+              aria-current={isActive(l.href) ? "page" : undefined}
+              className={`link-draw font-mono text-[11px] tracking-[0.12em] transition-colors duration-150 ${
+                isActive(l.href) ? "nav-active" : "text-muted hover:text-ink"
+              }`}
             >
               {l.label}
             </Link>
@@ -85,7 +93,10 @@ export function Nav({ member }: { member?: NavMember }) {
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="border-b border-line py-3.5 font-mono text-[12px] tracking-[0.12em] text-muted transition-colors duration-150 last:border-0 hover:text-ink"
+                aria-current={isActive(l.href) ? "page" : undefined}
+                className={`border-b border-line py-3.5 font-mono text-[12px] tracking-[0.12em] transition-colors duration-150 last:border-0 ${
+                  isActive(l.href) ? "nav-active" : "text-muted hover:text-ink"
+                }`}
               >
                 {l.label}
               </Link>
