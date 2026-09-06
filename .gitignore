@@ -56,3 +56,4 @@ ramya presentation.pdf
 
 # keep the env example tracked
 !.env.example
+node_modules
