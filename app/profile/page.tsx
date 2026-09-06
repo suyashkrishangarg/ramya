@@ -25,7 +25,7 @@ export default async function ProfilePage() {
       <main className="flex-1">
         <section className="mx-auto max-w-6xl px-5 pb-24 pt-32 sm:pt-40">
           <p className="font-mono text-[11px] tracking-[0.2em] text-dim">your spot</p>
-          <h1 className="mt-7 text-5xl font-bold leading-[1.02] tracking-[-0.035em] text-ink sm:text-7xl">
+          <h1 className="font-display mt-7 text-5xl font-bold leading-[1.02] tracking-[-0.035em] text-ink sm:text-7xl">
             hey {first || "there"}.
           </h1>
           <p className="mt-6 max-w-md text-sm leading-relaxed text-muted sm:text-base">

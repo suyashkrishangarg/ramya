@@ -44,7 +44,7 @@ export default async function ContactPage() {
               </p>
             </Reveal>
             <HeroLines
-              className="mt-8 text-[13vw] font-bold leading-[1.02] tracking-[-0.04em] text-ink sm:text-7xl lg:text-[5.2rem]"
+              className="font-display mt-8 text-[13vw] font-bold leading-[1.02] tracking-[-0.04em] text-ink sm:text-7xl lg:text-[5.2rem]"
               lines={["talk to us."]}
               delay={0.1}
             />

@@ -10,7 +10,7 @@ export function CtaBand() {
           <p className="font-mono text-[11px] tracking-[0.2em] text-dim">
             limited beta access
           </p>
-          <h2 className="mt-5 text-3xl font-bold tracking-[-0.025em] text-ink sm:text-4xl">
+          <h2 className="font-display mt-5 text-3xl font-bold tracking-[-0.025em] text-ink sm:text-4xl">
             be first in line.
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted">

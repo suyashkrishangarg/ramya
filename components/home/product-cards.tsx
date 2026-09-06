@@ -37,7 +37,7 @@ export function ProductCards() {
                 className="card-lift block border border-line bg-surface p-8 sm:p-10"
               >
                 <BadgePill dot={p.dot}>{p.badge}</BadgePill>
-                <h3 className="mt-6 text-3xl font-bold tracking-[-0.02em] text-ink">
+                <h3 className="font-display mt-6 text-3xl font-bold tracking-[-0.02em] text-ink">
                   {p.name}
                 </h3>
                 <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">

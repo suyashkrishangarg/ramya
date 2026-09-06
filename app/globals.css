@@ -24,6 +24,7 @@
   --color-dim: var(--dim);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-display: var(--font-space-grotesk), var(--font-geist-sans), ui-sans-serif, sans-serif;
 }
 
 html {

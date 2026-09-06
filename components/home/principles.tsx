@@ -35,7 +35,7 @@ export function Principles() {
                 <p className="font-mono text-[11px] tracking-[0.15em] text-dim">
                   {p.index}
                 </p>
-                <h3 className="mt-4 text-lg font-semibold tracking-[-0.01em] text-ink">
+                <h3 className="font-display mt-4 text-lg font-semibold tracking-[-0.01em] text-ink">
                   {p.title}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted">{p.body}</p>

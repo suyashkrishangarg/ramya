@@ -195,7 +195,7 @@ export default async function ProductsPage() {
             <p className="font-mono text-[11px] tracking-[0.2em] text-dim">products</p>
           </Reveal>
           <Reveal delay={0.06}>
-            <h1 className="mt-7 text-6xl font-bold leading-[1.02] tracking-[-0.035em] text-ink sm:text-8xl">
+            <h1 className="font-display mt-7 text-6xl font-bold leading-[1.02] tracking-[-0.035em] text-ink sm:text-8xl">
               two products.
             </h1>
           </Reveal>
@@ -221,7 +221,7 @@ export default async function ProductsPage() {
                   className="card-lift block border border-line bg-surface p-8 sm:p-10"
                 >
                   <BadgePill dot={p.dot}>{p.badge}</BadgePill>
-                  <h2 className="mt-6 text-3xl font-bold tracking-[-0.02em] text-ink">
+                  <h2 className="font-display mt-6 text-3xl font-bold tracking-[-0.02em] text-ink">
                     {p.name}
                   </h2>
                   <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
@@ -245,7 +245,7 @@ export default async function ProductsPage() {
                   <span className="font-mono text-[11px] tracking-[0.2em] text-dim">01</span>
                   <span className="h-px w-8 bg-line-strong" aria-hidden="true" />
                 </div>
-                <h2 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-ink">
+                <h2 className="font-display mt-4 text-3xl font-semibold tracking-[-0.02em] text-ink">
                   aura desktop
                 </h2>
                 <BadgePill dot="bg-white" pulse className="mt-5">
@@ -394,7 +394,7 @@ export default async function ProductsPage() {
                   <span className="font-mono text-[11px] tracking-[0.2em] text-dim">02</span>
                   <span className="h-px w-8 bg-line-strong" aria-hidden="true" />
                 </div>
-                <h2 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-ink">
+                <h2 className="font-display mt-4 text-3xl font-semibold tracking-[-0.02em] text-ink">
                   ramya flow
                 </h2>
                 <BadgePill dot="bg-dim" className="mt-5">

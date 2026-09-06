@@ -19,7 +19,7 @@ export async function Footer() {
       <div className="mx-auto max-w-6xl px-5 pb-10 pt-16">
         <p
           aria-hidden="true"
-          className="select-none text-[clamp(3.5rem,15vw,11rem)] font-bold leading-[0.85] tracking-[-0.05em] text-ink"
+          className="font-display select-none text-[clamp(3.5rem,15vw,11rem)] font-bold leading-[0.85] tracking-[-0.05em] text-ink"
         >
           ramya ai
         </p>

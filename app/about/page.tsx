@@ -54,7 +54,7 @@ export default async function AboutPage() {
               <p className="font-mono text-[11px] tracking-[0.2em] text-dim">about</p>
             </Reveal>
             <HeroLines
-              className="mt-8 text-[13vw] font-bold leading-[1.02] tracking-[-0.04em] text-ink sm:text-7xl lg:text-[5.2rem]"
+              className="font-display mt-8 text-[13vw] font-bold leading-[1.02] tracking-[-0.04em] text-ink sm:text-7xl lg:text-[5.2rem]"
               lines={["why ramya exists."]}
               delay={0.1}
             />

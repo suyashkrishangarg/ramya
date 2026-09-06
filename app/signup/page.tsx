@@ -51,7 +51,7 @@ export default async function SignupPage({ searchParams }: SignupProps) {
             </Reveal>
 
             <HeroLines
-              className="mt-8 text-[12vw] font-bold leading-[1.02] tracking-[-0.04em] text-ink sm:text-6xl lg:text-7xl"
+              className="font-display mt-8 text-[12vw] font-bold leading-[1.02] tracking-[-0.04em] text-ink sm:text-6xl lg:text-7xl"
               lines={["get early access."]}
               delay={0.1}
             />
