@@ -37,7 +37,15 @@ export async function getCurrentMember(): Promise<Member | null> {
   let email: string | null = null;
   let name: string | null = null;
 
-  if (supabaseConfigured()) {
+  const store = await cookies();
+  // fast path — no supabase auth cookie and no member cookie? nobody to resolve.
+  const hasSupabaseCookie = store
+    .getAll()
+    .some((c) => c.name.startsWith("sb-"));
+  const memberEmail = store.get(MEMBER_COOKIE)?.value || null;
+  if (!hasSupabaseCookie && !memberEmail) return null;
+
+  if (hasSupabaseCookie && supabaseConfigured()) {
     try {
       const supabase = await createSupabaseServerClient();
       const {
@@ -49,18 +57,13 @@ export async function getCurrentMember(): Promise<Member | null> {
         name = meta.full_name ?? meta.name ?? null;
       }
     } catch {
-      /* session unavailable — fall through to the cookie */
+      /* session unavailable — fall through to the member cookie */
     }
   }
 
-  if (!email) {
-    try {
-      email = (await cookies()).get(MEMBER_COOKIE)?.value || null;
-    } catch {
-      return null;
-    }
-    if (!email) return null;
-  }
+  // email signups don't have a supabase session — the member cookie identifies them
+  if (!email && memberEmail) email = memberEmail;
+  if (!email) return null;
 
   try {
     const row = await getMemberByEmail(email);

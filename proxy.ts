@@ -11,11 +11,20 @@ import { createServerClient } from "@supabase/ssr";
  * cookies, so the rotated session survives every navigation.
  */
 export default async function proxy(request: NextRequest) {
-  let response = NextResponse.next({ request });
-
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return response; // google auth not configured — nothing to refresh
+
+  // fast path — no supabase configured, or this visitor has no supabase
+  // auth cookie at all (the vast majority of traffic). nothing to refresh,
+  // so skip creating the client and skip the network round-trip entirely.
+  const hasSupabaseCookie = request.cookies
+    .getAll()
+    .some((c) => c.name.startsWith("sb-"));
+  if (!url || !key || !hasSupabaseCookie) {
+    return NextResponse.next({ request });
+  }
+
+  let response = NextResponse.next({ request });
 
   const supabase = createServerClient(url, key, {
     cookies: {
