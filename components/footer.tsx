@@ -36,9 +36,9 @@ export async function Footer() {
           <div>
             <p className="font-mono text-[10px] tracking-[0.15em] text-dim">company</p>
             <ul className="mt-4 space-y-2.5 text-sm">
-              <li><Link href="/#why" className="link-draw text-muted transition-colors duration-150 hover:text-ink">why ramya</Link></li>
-              <li><Link href="/#engine" className="link-draw text-muted transition-colors duration-150 hover:text-ink">engine</Link></li>
-              <li><Link href="/#market" className="link-draw text-muted transition-colors duration-150 hover:text-ink">market</Link></li>
+              <li><Link href="/about" className="link-draw text-muted transition-colors duration-150 hover:text-ink">about</Link></li>
+              <li><Link href="/contact" className="link-draw text-muted transition-colors duration-150 hover:text-ink">contact</Link></li>
+              <li><Link href="/products" className="link-draw text-muted transition-colors duration-150 hover:text-ink">the hybrid engine</Link></li>
             </ul>
           </div>
           <div>
