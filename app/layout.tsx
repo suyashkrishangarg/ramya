@@ -83,8 +83,15 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  // app/icon.png is picked up automatically; the brand mark as touch icon
-  icons: { apple: "/ramya_logo_blackbg.png" },
+  // explicit favicon set — the app/icon.png route serves the brand mark;
+  // declaring all three bundles guarantees the logo appears in the browser
+  // tab AND as the apple touch icon (partial "icons" metadata would otherwise
+  // override next's automatic app/icon.png detection)
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/ramya_logo_blackbg.png",
+  },
 };
 
 export const viewport: Viewport = {
