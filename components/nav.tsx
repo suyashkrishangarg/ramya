@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./logo";
 import { PrimaryButton } from "./buttons";
+import { ScrollProgress } from "./scroll-progress";
 
 const LINKS = [
   { href: "/", label: "home" },
@@ -35,6 +36,7 @@ export function Nav({ member }: { member?: NavMember }) {
         scrolled || open ? "glass border-b border-line" : "border-b border-transparent"
       }`}
     >
+      <ScrollProgress />
       <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5">
         <Link href="/" aria-label="ramya ai — home" onClick={() => setOpen(false)}>
           <Logo />
