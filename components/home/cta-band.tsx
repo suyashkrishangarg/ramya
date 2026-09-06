@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/reveal";
 import { PrimaryButton } from "@/components/buttons";
+import { LiveCounter } from "@/components/live-counter";
 
 /** slim closing CTA — points to the dedicated /signup page */
 export function CtaBand() {
@@ -16,6 +17,7 @@ export function CtaBand() {
           <p className="mt-4 text-sm leading-relaxed text-muted">
             one signup covers aura desktop and ramya flow early access.
           </p>
+          <LiveCounter className="mt-5 font-mono text-[11px] tracking-[0.05em] text-dim" />
           <div className="mt-8">
             <PrimaryButton href="/signup">sign up ➔</PrimaryButton>
           </div>

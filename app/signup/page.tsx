@@ -5,6 +5,8 @@ import { Footer } from "@/components/footer";
 import { HeroLines } from "@/components/hero-lines";
 import { Glow } from "@/components/glow";
 import { Reveal } from "@/components/reveal";
+import { LiveCounter } from "@/components/live-counter";
+
 import { WaitlistCapsule } from "@/components/waitlist-capsule";
 import { GoogleButton } from "@/components/google-button";
 import { getCurrentMember } from "@/lib/member";
@@ -93,7 +95,8 @@ export default async function SignupPage({ searchParams }: SignupProps) {
             </Reveal>
 
             <Reveal delay={0.55}>
-              <p className="mt-10 font-mono text-[11px] tracking-[0.05em] text-dim">
+              <LiveCounter className="font-mono text-[11px] tracking-[0.05em] text-dim" />
+              <p className="mt-3 font-mono text-[11px] tracking-[0.05em] text-dim">
                 no spam · free during beta · your position is locked instantly
               </p>
             </Reveal>
