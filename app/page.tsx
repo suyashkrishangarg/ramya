@@ -8,6 +8,7 @@ import { Manifesto } from "@/components/home/manifesto";
 import { Principles } from "@/components/home/principles";
 import { ProductCards } from "@/components/home/product-cards";
 import { HowItWorks } from "@/components/home/how-it-works";
+import { CostCalculator } from "@/components/cost-calculator";
 import { FromIndia } from "@/components/home/from-india";
 import { CtaBand } from "@/components/home/cta-band";
 import { Faq, type FaqItem } from "@/components/faq";
@@ -77,6 +78,7 @@ export default async function Home({ searchParams }: HomeProps) {
         <Principles />
         <ProductCards />
         <HowItWorks />
+        <CostCalculator />
         <FromIndia />
         <section className="border-t border-line">
           <div className="mx-auto max-w-3xl px-5 py-20 sm:py-28">
