@@ -42,7 +42,7 @@ export function Hero({ member }: HeroProps) {
             </div>
           ) : (
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <PrimaryButton href="#waitlist">join the beta ➔</PrimaryButton>
+              <PrimaryButton href="/signup">join the beta ➔</PrimaryButton>
               <GhostButton href="/products">see the products →</GhostButton>
             </div>
           )}

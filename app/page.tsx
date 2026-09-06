@@ -8,8 +8,7 @@ import { Principles } from "@/components/home/principles";
 import { ProductCards } from "@/components/home/product-cards";
 import { HowItWorks } from "@/components/home/how-it-works";
 import { FromIndia } from "@/components/home/from-india";
-import { FinalCta } from "@/components/home/final-cta";
-import { supabaseConfigured } from "@/lib/supabase";
+import { CtaBand } from "@/components/home/cta-band";
 import { getCurrentMember } from "@/lib/member";
 
 export const dynamic = "force-dynamic";
@@ -35,12 +34,10 @@ export default async function Home({ searchParams }: HomeProps) {
     redirect(`/auth/callback?${qs.toString()}`);
   }
 
-  const googleNotice =
-    params.google === "unconfigured"
-      ? "unconfigured"
-      : params.google === "error"
-        ? "error"
-        : null;
+  // google sign-up notices now live on the signup page
+  if (params.google === "unconfigured" || params.google === "error") {
+    redirect(`/signup?google=${params.google}`);
+  }
 
   // signed-in google member or signed-up email member → personalized state
   const member = await getCurrentMember();
@@ -56,11 +53,7 @@ export default async function Home({ searchParams }: HomeProps) {
         <ProductCards />
         <HowItWorks />
         <FromIndia />
-        <FinalCta
-          googleConfigured={supabaseConfigured()}
-          member={member}
-          googleNotice={googleNotice}
-        />
+        <CtaBand />
       </main>
       <Footer />
     </>

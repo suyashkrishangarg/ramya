@@ -134,7 +134,7 @@ export default async function AboutPage() {
                 sound like the future you want?
               </p>
               <div className="mt-8">
-                <PrimaryButton href="/#waitlist">join the beta ➔</PrimaryButton>
+                <PrimaryButton href="/signup">join the beta ➔</PrimaryButton>
               </div>
             </Reveal>
           </div>

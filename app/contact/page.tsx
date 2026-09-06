@@ -63,10 +63,10 @@ export default async function ContactPage() {
               <p className="mt-6 max-w-md text-sm leading-relaxed text-muted">
                 for beta updates, the fastest path is still the{" "}
                 <a
-                  href="/#waitlist"
+                  href="/signup"
                   className="link-draw text-ink transition-colors duration-150"
                 >
-                  waitlist
+                  sign-up page
                 </a>{" "}
                 — every member gets an email the moment the aura desktop beta
                 opens.

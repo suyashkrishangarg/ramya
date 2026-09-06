@@ -61,8 +61,8 @@ export function Nav({ member }: { member?: NavMember }) {
               profile ➔
             </PrimaryButton>
           ) : (
-            <PrimaryButton href="/#waitlist" className="px-4 py-1.5 text-[13px]">
-              join ➔
+            <PrimaryButton href="/signup" className="px-4 py-1.5 text-[13px]">
+              sign up ➔
             </PrimaryButton>
           )}
         </div>
@@ -106,8 +106,8 @@ export function Nav({ member }: { member?: NavMember }) {
                 profile ➔
               </PrimaryButton>
             ) : (
-              <PrimaryButton href="/#waitlist" className="mt-3">
-                join waitlist ➔
+              <PrimaryButton href="/signup" className="mt-3">
+                sign up ➔
               </PrimaryButton>
             )}
           </div>

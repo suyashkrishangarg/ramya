@@ -5,8 +5,7 @@ import { BadgePill } from "@/components/badge-pill";
 import { ListRow } from "@/components/list-row";
 import { Reveal } from "@/components/reveal";
 import { PrimaryButton, GhostButton } from "@/components/buttons";
-import { FinalCta } from "@/components/home/final-cta";
-import { supabaseConfigured } from "@/lib/supabase";
+import { CtaBand } from "@/components/home/cta-band";
 import { getCurrentMember } from "@/lib/member";
 
 export const dynamic = "force-dynamic";
@@ -264,7 +263,7 @@ export default async function ProductsPage() {
                   <span>·</span>
                   <span>ramya flow access — future</span>
                 </div>
-                <PrimaryButton href="/#waitlist" className="mt-8">
+                <PrimaryButton href="/signup" className="mt-8">
                   join the aura beta ➔
                 </PrimaryButton>
               </Reveal>
@@ -406,7 +405,7 @@ export default async function ProductsPage() {
                   get a motion piece. still in early idea phase; aura desktop will
                   connect to its features in the future.
                 </p>
-                <GhostButton href="/#waitlist" className="mt-8">
+                <GhostButton href="/signup" className="mt-8">
                   join waitlist for early access
                 </GhostButton>
               </Reveal>
@@ -436,7 +435,7 @@ export default async function ProductsPage() {
           </div>
         </section>
 
-        <FinalCta googleConfigured={supabaseConfigured()} member={member} />
+        <CtaBand />
       </main>
       <Footer />
     </>

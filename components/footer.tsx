@@ -30,7 +30,7 @@ export async function Footer() {
             <ul className="mt-4 space-y-2.5 text-sm">
               <li><Link href="/products" className="link-draw text-muted transition-colors duration-150 hover:text-ink">aura desktop</Link></li>
               <li><Link href="/products" className="link-draw text-muted transition-colors duration-150 hover:text-ink">ramya flow</Link></li>
-              <li><Link href="/#waitlist" className="link-draw text-muted transition-colors duration-150 hover:text-ink">waitlist</Link></li>
+              <li><Link href="/signup" className="link-draw text-muted transition-colors duration-150 hover:text-ink">sign up</Link></li>
             </ul>
           </div>
           <div>
