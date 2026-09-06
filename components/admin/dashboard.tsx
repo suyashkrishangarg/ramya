@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { BadgePill } from "@/components/badge-pill";
 import { StatCounter } from "@/components/stat-counter";
+import { SiteLinks } from "./site-links";
 import { computeStatsFromMembers } from "./stats";
 
 export type DashboardMember = {
@@ -22,10 +23,12 @@ export function Dashboard({
   adminEmail,
   members,
   sheetsConfigured,
+  settings,
 }: {
   adminEmail: string;
   members: DashboardMember[];
   sheetsConfigured: boolean;
+  settings: Record<string, string>;
 }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -110,11 +113,11 @@ export function Dashboard({
     <main className="min-h-screen flex-1">
       {/* top bar */}
       <header className="glass sticky top-0 z-40 border-b border-line">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-5">
+        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-5">
           <div className="flex items-center gap-3">
-            <Logo size={30} wordmark={false} />
+            <Logo size={26} wordmark={false} />
             <div>
-              <p className="text-sm font-semibold tracking-tight text-ink">
+              <p className="text-sm font-semibold tracking-[-0.01em] text-ink">
                 admin console
               </p>
               <p className="hidden font-mono text-[10px] tracking-[0.05em] text-dim sm:block">
@@ -126,7 +129,7 @@ export function Dashboard({
             <button
               type="button"
               onClick={exportCsv}
-              className="rounded-full border border-line bg-surface px-3.5 py-2 font-mono text-[11px] tracking-[0.03em] text-muted transition-colors duration-150 hover:border-accent/50 hover:text-ink"
+              className="border border-line px-3.5 py-2 font-mono text-[11px] tracking-[0.03em] text-muted transition-colors duration-150 hover:border-line-strong hover:text-ink"
             >
               export csv
             </button>
@@ -134,14 +137,14 @@ export function Dashboard({
               type="button"
               onClick={syncToSheets}
               disabled={syncing}
-              className="rounded-full bg-accent px-3.5 py-2 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#08090a] transition-all duration-150 hover:opacity-85 disabled:opacity-60"
+              className="bg-white px-3.5 py-2 font-mono text-[11px] font-semibold text-[#060606] transition-colors duration-150 hover:bg-[#d8d8d6] disabled:opacity-60"
             >
               {syncing ? "syncing…" : sheetsConfigured ? "sync to sheets" : "sync (no url set)"}
             </button>
             <button
               type="button"
               onClick={logout}
-              className="rounded-full border border-line bg-surface px-3.5 py-2 font-mono text-[11px] tracking-[0.03em] text-muted transition-colors duration-150 hover:border-red-500/50 hover:text-red-500"
+              className="border border-line px-3.5 py-2 font-mono text-[11px] tracking-[0.03em] text-muted transition-colors duration-150 hover:border-white/40 hover:text-ink"
             >
               logout
             </button>
@@ -151,7 +154,7 @@ export function Dashboard({
 
       <div className="mx-auto max-w-6xl px-5 py-8">
         {/* stat cards */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid border border-line sm:grid-cols-2 lg:grid-cols-4">
           {[
             { label: "total members", value: <StatCounter to={stats.total} /> },
             { label: "joined today", value: <StatCounter to={stats.today} /> },
@@ -161,22 +164,29 @@ export function Dashboard({
               value: (
                 <span className="font-mono text-2xl font-bold tracking-[-0.02em] text-ink sm:text-3xl">
                   {stats.google}
-                  <span className="text-dim"> · </span>
+                  <span className="text-dim"> / </span>
                   {stats.email}
                 </span>
               ),
             },
-          ].map((card) => (
+          ].map((card, i) => (
             <div
               key={card.label}
-              className="rounded-2xl border border-line bg-surface px-6 py-6 transition-colors duration-150 hover:border-accent/30"
+              className={`px-6 py-6 transition-colors duration-150 hover:bg-surface ${
+                i > 0 ? "border-t border-line lg:border-l lg:border-t-0" : ""
+              } ${i === 1 ? "lg:border-l" : ""}`}
             >
               {card.value}
-              <p className="mt-2 font-mono text-[11px] tracking-[0.05em] text-dim">
+              <p className="mt-2 font-mono text-[10px] tracking-[0.1em] text-dim">
                 {card.label}
               </p>
             </div>
           ))}
+        </div>
+
+        {/* site links editor */}
+        <div className="mt-6">
+          <SiteLinks initial={settings} />
         </div>
         {/* controls */}
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -186,10 +196,10 @@ export function Dashboard({
                 key={s}
                 type="button"
                 onClick={() => setSourceFilter(s)}
-                className={`rounded-full border px-3.5 py-1.5 font-mono text-[11px] tracking-[0.03em] transition-colors duration-150 ${
+                className={`border px-3.5 py-1.5 font-mono text-[11px] tracking-[0.03em] transition-colors duration-150 ${
                   sourceFilter === s
-                    ? "border-accent/60 bg-accent/10 text-accent"
-                    : "border-line bg-surface text-muted hover:text-ink"
+                    ? "border-white/50 bg-white/10 text-ink"
+                    : "border-line text-muted hover:text-ink"
                 }`}
               >
                 {s}
@@ -200,7 +210,7 @@ export function Dashboard({
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as "position" | "newest")}
-              className="rounded-full border border-line bg-surface px-3 py-2 font-mono text-[11px] tracking-[0.03em] text-muted outline-none transition-colors duration-150 focus:border-accent"
+              className="border border-line bg-surface px-3 py-2 font-mono text-[11px] tracking-[0.03em] text-muted outline-none transition-colors duration-150 focus:border-line-strong"
             >
               <option value="position">sort · position</option>
               <option value="newest">sort · newest</option>
@@ -210,17 +220,17 @@ export function Dashboard({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="search email or name…"
-              className="w-full rounded-full border border-line bg-surface px-4 py-2 text-sm text-ink outline-none transition-colors duration-150 placeholder:text-dim focus:border-accent sm:w-64"
+              className="w-full border border-line bg-surface px-4 py-2 text-sm text-ink outline-none transition-colors duration-150 placeholder:text-dim focus:border-line-strong sm:w-64"
             />
           </div>
         </div>
 
         {/* members table */}
-        <div className="mt-4 overflow-hidden rounded-2xl border border-line bg-surface">
-          <div className="max-h-[60vh] overflow-auto">
+        <div className="mt-4 border border-line bg-surface">
+          <div className="max-h-[55vh] overflow-auto">
             <table className="w-full min-w-[640px] text-left text-sm">
               <thead className="sticky top-0 bg-elevated">
-                <tr className="font-mono text-[10px] tracking-[0.08em] text-dim">
+                <tr className="font-mono text-[10px] tracking-[0.1em] text-dim">
                   <th className="px-5 py-3 font-medium">#</th>
                   <th className="px-5 py-3 font-medium">email</th>
                   <th className="px-5 py-3 font-medium">name</th>
@@ -233,17 +243,17 @@ export function Dashboard({
                 {filtered.map((m) => (
                   <tr
                     key={m.id}
-                    className="border-t border-line transition-colors duration-150 hover:bg-elevated/60"
+                    className="border-t border-line transition-colors duration-150 hover:bg-elevated"
                   >
-                    <td className="px-5 py-3 font-mono text-xs font-bold text-accent">
+                    <td className="px-5 py-3 font-mono text-xs font-bold text-ink">
                       {String(m.position ?? 0).padStart(5, "0")}
                     </td>
                     <td className="px-5 py-3 font-mono text-[13px] text-ink">{m.email}</td>
                     <td className="px-5 py-3 text-muted">{m.name ?? "—"}</td>
                     <td className="px-5 py-3">
                       <BadgePill
-                        dot={m.source === "google" ? "bg-cloud" : "bg-local"}
-                        pulse={false}
+                        dot={m.source === "google" ? "bg-white" : "bg-dim"}
+                        className="border-line"
                       >
                         {m.source}
                       </BadgePill>
@@ -258,7 +268,7 @@ export function Dashboard({
                     </td>
                     <td className="px-5 py-3">
                       {m.lastSyncedAt ? (
-                        <span className="font-mono text-[11px] text-local">✓ synced</span>
+                        <span className="font-mono text-[11px] text-ink">✓ synced</span>
                       ) : (
                         <span className="font-mono text-[11px] text-dim">· pending</span>
                       )}
@@ -294,7 +304,7 @@ export function Dashboard({
 
       {/* toast */}
       {toast && (
-        <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full border border-line bg-elevated px-5 py-3 font-mono text-xs text-ink shadow-[0_8px_40px_-8px_rgba(0,0,0,0.6)]">
+        <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 border border-line-strong bg-elevated px-5 py-3 font-mono text-xs text-ink">
           {toast}
         </div>
       )}

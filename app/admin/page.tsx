@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Dashboard, type DashboardMember } from "@/components/admin/dashboard";
 import { getAdminSession } from "@/lib/session";
 import { getAllRows } from "@/lib/waitlist";
+import { getSettings } from "@/lib/settings";
 import { sheetsConfigured } from "@/lib/sheets";
 
 export const dynamic = "force-dynamic";
@@ -34,11 +35,19 @@ export default async function AdminPage() {
           : null,
   }));
 
+  let settings: Record<string, string> = {};
+  try {
+    settings = await getSettings();
+  } catch {
+    /* fresh database — settings editor still renders */
+  }
+
   return (
     <Dashboard
       adminEmail={session.email}
       members={members}
       sheetsConfigured={sheetsConfigured()}
+      settings={settings}
     />
   );
 }

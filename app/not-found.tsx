@@ -4,28 +4,28 @@ import { PrimaryButton } from "@/components/buttons";
 
 export default function NotFound() {
   return (
-    <main className="relative flex min-h-screen flex-1 items-center justify-center overflow-hidden px-5">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,black_30%,transparent_75%)]" />
-      </div>
-      <div className="text-center">
-        <Logo size={48} wordmark={false} />
-        <p className="mt-8 font-mono text-[11px] tracking-[0.18em] text-accent">
-          error 404
-        </p>
-        <h1 className="mt-3 text-3xl font-semibold tracking-[-0.025em] text-ink sm:text-4xl">
-          this page wandered off to the cloud.
+    <main className="flex min-h-screen flex-1 items-center px-5">
+      <div className="mx-auto w-full max-w-6xl">
+        <Logo />
+        <p className="mt-10 font-mono text-[11px] tracking-[0.2em] text-dim">error 404</p>
+        <h1 className="mt-4 text-5xl font-bold leading-[1.02] tracking-[-0.035em] text-ink sm:text-7xl">
+          this page wandered
+          <br />
+          <span className="outline-text">off to the cloud.</span>
         </h1>
-        <p className="mt-3 text-sm text-muted">
+        <p className="mt-6 max-w-sm text-sm leading-relaxed text-muted">
           the link you followed doesn&apos;t exist — the local engine would have caught
           it for free.
         </p>
-        <div className="mt-8 flex justify-center">
+        <div className="mt-10 flex flex-wrap gap-3">
           <PrimaryButton href="/">back to ramya ai ➔</PrimaryButton>
+          <Link
+            href="/products"
+            className="inline-flex items-center rounded-full border border-line-strong px-5 py-2.5 text-sm font-medium text-ink transition-colors duration-150 hover:bg-white hover:text-[#060606]"
+          >
+            explore the products
+          </Link>
         </div>
-        <p className="mt-6 font-mono text-[11px] tracking-[0.05em] text-dim">
-          or <Link href="/products" className="transition-colors duration-150 hover:text-muted">explore the products</Link>
-        </p>
       </div>
     </main>
   );

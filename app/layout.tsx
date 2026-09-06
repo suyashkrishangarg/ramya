@@ -38,38 +38,31 @@ export const metadata: Metadata = {
     siteName: "ramya ai",
     title: "ramya ai — the universal hybrid agent platform",
     description:
-      "run routine tasks locally for free. offload complex reasoning to optimized cloud models. slash ai costs by up to 80%.",
+      "routine tasks run free on your hardware. deep reasoning escalates to optimized cloud models. up to 80% off your ai bill.",
     images: [{ url: "/ramya_logo_blackbg.png", width: 1024, height: 1024, alt: "ramya ai" }],
   },
   twitter: {
     card: "summary",
     title: "ramya ai — the universal hybrid agent platform",
     description:
-      "run routine tasks locally for free. offload complex reasoning to the cloud. slash ai costs by up to 80%.",
+      "routine tasks run free on your hardware. deep reasoning escalates to the cloud. up to 80% off your ai bill.",
     images: ["/ramya_logo_blackbg.png"],
   },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#08090a",
+  themeColor: "#060606",
   width: "device-width",
   initialScale: 1,
 };
-
-/* applies persisted theme before first paint — dark obsidian is the default */
-const themeScript = `(function(){try{var t=localStorage.getItem("ramya-theme");var d=t===null?true:t==="dark";document.documentElement.classList.toggle("dark",d);}catch(e){document.documentElement.classList.add("dark");}})();`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      suppressHydrationWarning
       className={`${geistSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
       <body className="flex min-h-full flex-col bg-base text-ink">{children}</body>
     </html>
   );

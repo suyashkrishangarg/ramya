@@ -21,30 +21,15 @@ function GoogleIcon() {
   );
 }
 
-/** real google sign-up — routes through /api/auth/google */
-export function GoogleButton({
-  configured,
-  label = "continue with google",
-}: {
-  configured: boolean;
-  label?: string;
-}) {
-  if (!configured) {
-    return (
-      <span
-        title="activates once google oauth credentials are configured (see readme)"
-        className="inline-flex cursor-not-allowed select-none items-center justify-center gap-2.5 rounded-full border border-line bg-surface px-5 py-2.5 text-sm font-medium text-dim"
-      >
-        <GoogleIcon />
-        {label}
-        <span className="font-mono text-[10px] tracking-[0.05em] text-dim">· soon</span>
-      </span>
-    );
-  }
+/**
+ * real google sign-up via supabase auth → /auth/google.
+ * rendered only when supabase is configured — the button is always live.
+ */
+export function GoogleButton({ label = "continue with google" }: { label?: string }) {
   return (
     <a
-      href="/api/auth/google"
-      className="inline-flex items-center justify-center gap-2.5 rounded-full border border-line bg-white px-5 py-2.5 text-sm font-medium text-slate-800 transition-all duration-150 hover:bg-slate-50 hover:shadow-[0_0_24px_-8px_rgba(255,255,255,0.5)] active:scale-[0.98]"
+      href="/auth/google"
+      className="inline-flex items-center justify-center gap-2.5 border border-line-strong bg-white px-5 py-2.5 text-sm font-medium text-[#060606] transition-colors duration-150 hover:bg-[#d8d8d6] active:scale-[0.98] rounded-full"
     >
       <GoogleIcon />
       {label}

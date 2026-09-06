@@ -40,11 +40,19 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# local libsql database
+# local dev database (libsql + embedded postgres)
 local.db*
 *.db
 !*.db.ts
-!.env.example
+.pglite/
 
-# local test server log
+# local test logs
 server.log
+build.log
+
+# pitch deck + large media must never ship in the repo
+ramya presentation.pdf
+*.mp4
+
+# keep the env example tracked
+!.env.example

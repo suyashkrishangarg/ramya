@@ -36,9 +36,9 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={submit} className="mt-8 w-full max-w-sm">
+    <form onSubmit={submit} className="mt-8 w-full">
       <label className="block">
-        <span className="font-mono text-[11px] tracking-[0.05em] text-dim">email</span>
+        <span className="font-mono text-[10px] tracking-[0.1em] text-dim">email</span>
         <input
           type="email"
           required
@@ -46,11 +46,11 @@ export function LoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="admin@ramyaai.tech"
-          className="mt-2 w-full rounded-2xl border border-line bg-elevated px-4 py-3 text-sm text-ink outline-none transition-colors duration-150 placeholder:text-dim focus:border-accent"
+          className="mt-2 w-full border border-line bg-elevated px-4 py-3 text-sm text-ink outline-none transition-colors duration-150 placeholder:text-dim focus:border-line-strong"
         />
       </label>
       <label className="mt-4 block">
-        <span className="font-mono text-[11px] tracking-[0.05em] text-dim">password</span>
+        <span className="font-mono text-[10px] tracking-[0.1em] text-dim">password</span>
         <input
           type="password"
           required
@@ -58,16 +58,16 @@ export function LoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="••••••••••••"
-          className="mt-2 w-full rounded-2xl border border-line bg-elevated px-4 py-3 text-sm text-ink outline-none transition-colors duration-150 placeholder:text-dim focus:border-accent"
+          className="mt-2 w-full border border-line bg-elevated px-4 py-3 text-sm text-ink outline-none transition-colors duration-150 placeholder:text-dim focus:border-line-strong"
         />
       </label>
 
-      {error && <p className="mt-4 text-xs text-red-500">{error}</p>}
+      {error && <p className="mt-4 text-xs text-muted">{error}</p>}
 
       <button
         type="submit"
         disabled={loading}
-        className="mt-6 w-full rounded-full bg-accent py-3 text-sm font-semibold text-[#08090a] transition-all duration-150 hover:opacity-85 active:scale-[0.99] disabled:opacity-60"
+        className="mt-6 w-full bg-white py-3 text-sm font-semibold text-[#060606] transition-colors duration-150 hover:bg-[#d8d8d6] disabled:opacity-60"
       >
         {loading ? "verifying…" : "sign in ➔"}
       </button>

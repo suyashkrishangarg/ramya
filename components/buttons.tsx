@@ -2,10 +2,10 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 const PRIMARY =
-  "inline-flex items-center justify-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-[#08090a] transition-all duration-150 hover:opacity-85 hover:shadow-[0_0_28px_-6px_var(--accent)] active:scale-[0.98]";
+  "inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#060606] transition-colors duration-150 hover:bg-[#d8d8d6] active:scale-[0.98]";
 
 const GHOST =
-  "inline-flex items-center justify-center gap-2 rounded-full border border-line bg-surface px-5 py-2.5 text-sm font-medium text-ink transition-colors duration-150 hover:border-accent/50 hover:bg-elevated active:scale-[0.98]";
+  "inline-flex items-center justify-center gap-2 rounded-full border border-line-strong px-5 py-2.5 text-sm font-medium text-ink transition-colors duration-150 hover:bg-white hover:text-[#060606] active:scale-[0.98]";
 
 export function PrimaryButton({
   href,

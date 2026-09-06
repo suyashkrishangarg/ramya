@@ -1,98 +1,80 @@
-import { GlowCard } from "@/components/glow-card";
-import { SectionHeading } from "@/components/section-heading";
+import { Section, SectionHeader } from "@/components/section";
 import { Reveal } from "@/components/reveal";
-import { StatCounter } from "@/components/stat-counter";
 
 const TIERS = [
   {
     label: "som",
-    note: "immediate target",
+    note: "immediate target — ai power users & freelancers",
     value: "$1.8M",
     unit: "arr",
     formula: "10,000 power users × $180/yr",
-    dot: "bg-local",
-    ring: "border-local/40",
-    valueClass: "text-local",
   },
   {
     label: "sam",
-    note: "knowledge workers worldwide",
+    note: "knowledge workers & professionals worldwide",
     value: "$360M",
     unit: "arr",
     formula: "2,000,000 daily ai professionals × $180/yr",
-    dot: "bg-cloud",
-    ring: "border-cloud/40",
-    valueClass: "text-cloud",
   },
   {
     label: "tam",
-    note: "global digital workforce",
+    note: "global digital workforce & active desktop ai users",
     value: "$18B+",
     unit: "total market",
-    formula: "100,000,000 active desktop ai users × $180/yr",
-    dot: "bg-accent",
-    ring: "border-accent/40",
-    valueClass: "text-accent",
+    formula: "100,000,000 active users × $180/yr",
   },
 ];
 
-/** slide 6 — bottom-up market sizing */
 export function Market() {
   return (
-    <section id="market" className="border-t border-line/60 py-24 sm:py-28">
-      <div className="mx-auto max-w-6xl px-5">
-        <SectionHeading
-          kicker="market opportunity"
-          title="bottom-up sizing"
-          sub="transparent math — no hand-waving. every tier is built from real subscriber economics."
-        />
+    <Section id="market">
+      <SectionHeader
+        index="04"
+        title="bottom-up market sizing"
+        sub="transparent math — every tier is built from real subscriber economics, not hand-waving."
+      />
 
-        <div className="mt-14 grid gap-4 md:grid-cols-3">
-          {TIERS.map((tier, i) => (
-            <Reveal key={tier.label} delay={i * 0.08} className="h-full">
-              <GlowCard className={`h-full border-dashed p-7 ${tier.ring}`}>
-                <div className="flex items-center gap-2.5">
-                  <span className={`h-1.5 w-1.5 rounded-full ${tier.dot}`} />
-                  <span className="font-mono text-xs font-bold tracking-[0.1em] text-ink">
-                    {tier.label}
-                  </span>
-                  <span className="font-mono text-[10px] tracking-[0.03em] text-dim">
-                    · {tier.note}
-                  </span>
-                </div>
-                <p className="mt-6 font-mono text-4xl font-bold tracking-[-0.02em] sm:text-5xl">
-                  <span className={tier.valueClass}>{tier.value}</span>{" "}
-                  <span className="text-sm font-medium tracking-normal text-dim">
+      <div className="md:col-span-8">
+        {TIERS.map((tier, i) => (
+          <Reveal key={tier.label} delay={i * 0.05}>
+            <div className="grid gap-3 border-t border-line py-7 transition-colors duration-150 hover:bg-surface sm:grid-cols-[7rem_1fr] sm:items-baseline sm:gap-8">
+              <div>
+                <p className="font-mono text-[11px] font-bold tracking-[0.2em] text-ink">
+                  {tier.label}
+                </p>
+                <p className="mt-1 font-mono text-[10px] leading-relaxed text-dim">
+                  {tier.note}
+                </p>
+              </div>
+              <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
+                <p className="font-mono text-4xl font-bold tracking-[-0.03em] text-ink sm:text-5xl">
+                  {tier.value}
+                  <span className="ml-2 text-sm font-medium tracking-normal text-dim">
                     {tier.unit}
                   </span>
                 </p>
-                <p className="mt-6 border-t border-line pt-4 font-mono text-[11px] leading-relaxed tracking-[0.02em] text-muted">
+                <p className="font-mono text-[11px] tracking-[0.04em] text-muted">
                   {tier.formula}
                 </p>
-              </GlowCard>
-            </Reveal>
-          ))}
-        </div>
-
-        <div className="mt-14 grid gap-4 sm:grid-cols-3">
-          {[
-            { value: <StatCounter to={80} suffix="%" />, label: "average ai cost reduction" },
-            { value: <StatCounter to={0} prefix="$" />, label: "cost for local inference" },
-            { value: <StatCounter to={70} suffix="%+" />, label: "saved by power users who switch" },
-          ].map((stat, i) => (
-            <Reveal key={stat.label} delay={i * 0.08}>
-              <div className="rounded-2xl border border-line bg-surface px-6 py-7 text-center transition-colors duration-150 hover:border-accent/30">
-                <p className="font-mono text-3xl font-bold tracking-[-0.02em] text-ink sm:text-4xl">
-                  {stat.value}
-                </p>
-                <p className="mt-2 font-mono text-[11px] tracking-[0.05em] text-dim">
-                  {stat.label}
-                </p>
               </div>
-            </Reveal>
-          ))}
-        </div>
+            </div>
+          </Reveal>
+        ))}
+
+        <Reveal>
+          <div className="flex flex-wrap gap-x-8 gap-y-2 border-t border-line py-7 font-mono text-[11px] tracking-[0.05em] text-muted">
+            <span>
+              <span className="text-ink">80%</span> average cost reduction
+            </span>
+            <span>
+              <span className="text-ink">$0</span> local inference
+            </span>
+            <span>
+              <span className="text-ink">70%+</span> saved by power users who switch
+            </span>
+          </div>
+        </Reveal>
       </div>
-    </section>
+    </Section>
   );
 }

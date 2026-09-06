@@ -1,11 +1,8 @@
 import Image from "next/image";
 
-/**
- * official lockup per designguide.md §2:
- * glyph left of the lowercase wordmark, logo swaps automatically with theme.
- */
+/** official lockup — glyph + lowercase wordmark, monochrome tile */
 export function Logo({
-  size = 34,
+  size = 30,
   wordmark = true,
 }: {
   size?: number;
@@ -14,7 +11,7 @@ export function Logo({
   return (
     <span className="inline-flex select-none items-center gap-2.5">
       <span
-        className="relative inline-block overflow-hidden rounded-[9px] ring-1 ring-line"
+        className="relative inline-block overflow-hidden rounded-[7px] ring-1 ring-line"
         style={{ width: size, height: size }}
       >
         <Image
@@ -22,20 +19,13 @@ export function Logo({
           alt="ramya ai"
           width={size}
           height={size}
-          className="hidden h-full w-full object-cover dark:block"
-        />
-        <Image
-          src="/ramya_logo_whitebg.png"
-          alt="ramya ai"
-          width={size}
-          height={size}
-          className="h-full w-full object-cover dark:hidden"
+          className="h-full w-full object-cover"
         />
       </span>
       {wordmark && (
         <span
           className="font-semibold tracking-tight text-ink"
-          style={{ fontSize: Math.round(size * 0.5) }}
+          style={{ fontSize: Math.round(size * 0.52) }}
         >
           ramya ai
         </span>

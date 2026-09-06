@@ -1,16 +1,15 @@
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Hero } from "@/components/home/hero";
-import { CostComparison } from "@/components/home/cost-comparison";
-import { TokenBurn } from "@/components/home/token-burn";
-import { MissingBridge } from "@/components/home/missing-bridge";
-import { Architecture } from "@/components/home/architecture";
+import { Marquee } from "@/components/marquee";
+import { Problem } from "@/components/home/problem";
+import { Gap } from "@/components/home/gap";
+import { Engine } from "@/components/home/engine";
 import { Market } from "@/components/home/market";
 import { Vision } from "@/components/home/vision";
 import { FinalCta } from "@/components/home/final-cta";
-import { getMemberSession } from "@/lib/session";
+import { createSupabaseServerClient, supabaseConfigured } from "@/lib/supabase";
 import { getMemberByEmail } from "@/lib/waitlist";
-import { googleConfigured } from "@/lib/google";
 
 export const dynamic = "force-dynamic";
 
@@ -27,17 +26,23 @@ export default async function Home({ searchParams }: HomeProps) {
         ? "error"
         : null;
 
-  // returning google member → personalized hero state
+  // returning google member (supabase session) → personalized hero state
   let welcome: { name: string | null; position: number } | null = null;
-  const member = await getMemberSession();
-  if (member) {
+  if (supabaseConfigured()) {
     try {
-      const row = await getMemberByEmail(member.email);
-      if (row) {
-        welcome = { name: member.name ?? row.name, position: row.position ?? 0 };
+      const supabase = await createSupabaseServerClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user?.email) {
+        const row = await getMemberByEmail(user.email);
+        if (row) {
+          const meta = (user.user_metadata ?? {}) as Record<string, string | undefined>;
+          welcome = { name: meta.full_name ?? row.name, position: row.position ?? 0 };
+        }
       }
     } catch {
-      /* db unavailable — degrade to the standard capsule */
+      /* db or session unavailable — degrade to the standard capsule */
     }
   }
 
@@ -48,15 +53,15 @@ export default async function Home({ searchParams }: HomeProps) {
         <Hero
           welcome={welcome}
           googleNotice={googleNotice}
-          googleConfigured={googleConfigured()}
+          googleConfigured={supabaseConfigured()}
         />
-        <CostComparison />
-        <TokenBurn />
-        <MissingBridge />
-        <Architecture />
+        <Marquee />
+        <Problem />
+        <Gap />
+        <Engine />
         <Market />
         <Vision />
-        <FinalCta googleConfigured={googleConfigured()} />
+        <FinalCta googleConfigured={supabaseConfigured()} />
       </main>
       <Footer />
     </>
