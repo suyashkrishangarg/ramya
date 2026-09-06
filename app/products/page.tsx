@@ -5,6 +5,7 @@ import { BadgePill } from "@/components/badge-pill";
 import { ListRow } from "@/components/list-row";
 import { Reveal } from "@/components/reveal";
 import { CursorGlow } from "@/components/cursor-glow";
+import { TaskRouter } from "@/components/task-router";
 import { PrimaryButton, GhostButton } from "@/components/buttons";
 import { CtaBand } from "@/components/home/cta-band";
 import { getCurrentMember } from "@/lib/member";
@@ -303,14 +304,8 @@ export default async function ProductsPage() {
                 ))}
               </div>
               <Reveal>
-                <div className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 border border-line bg-surface px-5 py-4 font-mono text-[11px] tracking-[0.04em] text-muted sm:gap-x-4">
-                  <span className="text-ink">you give a task</span>
-                  <span className="text-dim" aria-hidden="true">→</span>
-                  <span>local engine clears the routine</span>
-                  <span className="text-dim" aria-hidden="true">→</span>
-                  <span>cloud mesh clears the deep</span>
-                  <span className="text-dim" aria-hidden="true">→</span>
-                  <span className="text-ink">done</span>
+                <div className="mt-10">
+                  <TaskRouter />
                 </div>
               </Reveal>
 
