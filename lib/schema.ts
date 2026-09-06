@@ -12,6 +12,7 @@ export const waitlist = pgTable(
     googleId: text("google_id"),
     position: integer("position"),
     lastSyncedAt: timestamp("last_synced_at", { withTimezone: true }),
+    welcomeEmailSentAt: timestamp("welcome_email_sent_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [uniqueIndex("waitlist_email_key").on(t.email)],

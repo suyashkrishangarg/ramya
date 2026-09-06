@@ -1,4 +1,4 @@
-import { desc, eq, sql } from "drizzle-orm";
+import { desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { db } from "./db";
 import { waitlist, type WaitlistRow } from "./schema";
 import { ensureSchema } from "./bootstrap";
@@ -77,6 +77,33 @@ export async function getAllRows(): Promise<WaitlistRow[]> {
 export async function markAllSynced(): Promise<void> {
   await ensureSchema();
   await db.update(waitlist).set({ lastSyncedAt: new Date() });
+}
+
+/** members who joined before welcome emails went live (or whose send failed) */
+export async function getMembersWithoutWelcome(): Promise<WaitlistRow[]> {
+  await ensureSchema();
+  return db
+    .select()
+    .from(waitlist)
+    .where(isNull(waitlist.welcomeEmailSentAt))
+    .orderBy(waitlist.position);
+}
+
+/** idempotent marker — set after the welcome email actually went out */
+export async function markWelcomeSent(ids: number[]): Promise<void> {
+  if (ids.length === 0) return;
+  await ensureSchema();
+  await db
+    .update(waitlist)
+    .set({ welcomeEmailSentAt: new Date() })
+    .where(inArray(waitlist.id, ids));
+}
+
+/** hard-delete a member — used by the admin console. returns the removed row. */
+export async function deleteMember(id: number): Promise<WaitlistRow | null> {
+  await ensureSchema();
+  const deleted = await db.delete(waitlist).where(eq(waitlist.id, id)).returning();
+  return deleted[0] ?? null;
 }
 
 /** serialize a db row into the flat shape mirrored into google sheets */

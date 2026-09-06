@@ -20,9 +20,15 @@ export function ensureSchema(): Promise<void> {
           google_id TEXT,
           position INTEGER,
           last_synced_at TIMESTAMPTZ,
+          welcome_email_sent_at TIMESTAMPTZ,
           created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
         )
       `);
+      // existing tables (created before the welcome email existed) get the
+      // column too — idempotent, so it's safe on every boot
+      await db.execute(
+        sql`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS welcome_email_sent_at TIMESTAMPTZ`,
+      );
       await db.execute(
         sql`CREATE UNIQUE INDEX IF NOT EXISTS waitlist_email_key ON waitlist (email)`,
       );

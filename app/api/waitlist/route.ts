@@ -10,6 +10,7 @@ import { pushRowToSheet } from "@/lib/sheets";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { MEMBER_COOKIE, memberCookieOptions } from "@/lib/member";
 import { sendWaitlistWelcome } from "@/lib/email";
+import { markWelcomeSent } from "@/lib/waitlist";
 
 export const dynamic = "force-dynamic";
 
@@ -59,11 +60,12 @@ export async function POST(req: NextRequest) {
     after(async () => {
       await pushRowToSheet(toSheetRow(result.row));
       if (!result.alreadyRegistered) {
-        await sendWaitlistWelcome({
+        const sent = await sendWaitlistWelcome({
           email,
           name: result.row.name,
           position: result.position,
         });
+        if (sent) await markWelcomeSent([result.row.id]).catch(() => {});
       }
     });
     const count = await getWaitlistCount();

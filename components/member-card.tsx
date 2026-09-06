@@ -8,16 +8,23 @@ export function MemberCard({
   name: string | null;
   position: number;
 }) {
+  // greet by first name — "welcome back, aditya" reads better than an id
+  const first = (name ?? "").trim().split(/\s+/)[0];
+
   return (
     <div className="w-full max-w-md border border-line-strong bg-surface px-5 py-4">
       <p className="font-mono text-[11px] tracking-[0.12em] text-muted">
-        {name ? `welcome back, ${name}` : "welcome back"}
+        welcome back,
       </p>
-      <p className="mt-2 font-mono text-3xl font-bold tracking-[-0.02em] text-ink">
-        #{String(position).padStart(5, "0")}
+      <p className="mt-1 text-3xl font-bold tracking-[-0.02em] text-ink">
+        {first || "friend"}
       </p>
       <p className="mt-2 text-xs leading-relaxed text-muted">
-        you&apos;re on the waitlist — we&apos;ll email you when the beta opens.
+        you&apos;re{" "}
+        <span className="font-mono font-bold text-ink">
+          #{String(position).padStart(5, "0")}
+        </span>{" "}
+        in line — we&apos;ll email you when the beta opens.
       </p>
       <Link
         href="/profile"

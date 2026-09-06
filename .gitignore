@@ -57,3 +57,6 @@ ramya presentation.pdf
 # keep the env example tracked
 !.env.example
 node_modules
+
+server-test*.log
+server-dev*.log

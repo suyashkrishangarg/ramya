@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { after } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase";
-import { joinWaitlist, toSheetRow } from "@/lib/waitlist";
+import { joinWaitlist, toSheetRow, markWelcomeSent } from "@/lib/waitlist";
 import { pushRowToSheet } from "@/lib/sheets";
 import { sendWaitlistWelcome } from "@/lib/email";
 
@@ -42,11 +42,12 @@ export async function GET(request: NextRequest) {
     if (!result.alreadyRegistered) {
       after(async () => {
         await pushRowToSheet(toSheetRow(result.row));
-        await sendWaitlistWelcome({
+        const sent = await sendWaitlistWelcome({
           email: userEmail,
           name: result.row.name,
           position: result.position,
         });
+        if (sent) await markWelcomeSent([result.row.id]).catch(() => {});
       });
     }
 

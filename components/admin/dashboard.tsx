@@ -17,6 +17,7 @@ export type DashboardMember = {
   position: number | null;
   createdAt: string;
   lastSyncedAt: string | null;
+  welcomeEmailSentAt: string | null;
 };
 
 export function Dashboard({
@@ -35,8 +36,14 @@ export function Dashboard({
   const [sourceFilter, setSourceFilter] = useState<"all" | "google" | "email">("all");
   const [sort, setSort] = useState<"position" | "newest">("position");
   const [syncing, setSyncing] = useState(false);
+  const [backfilling, setBackfilling] = useState(false);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const stats = useMemo(() => computeStatsFromMembers(members), [members]);
+  const pendingEmails = useMemo(
+    () => members.filter((m) => !m.welcomeEmailSentAt).length,
+    [members],
+  );
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -77,6 +84,60 @@ export function Dashboard({
       flash("✕ network error during sync");
     } finally {
       setSyncing(false);
+    }
+  }
+
+  async function backfillEmails() {
+    if (backfilling) return;
+    if (
+      !window.confirm(
+        `send the welcome email to ${pendingEmails} member${pendingEmails === 1 ? "" : "s"} who never received one?\n\nthis uses your resend quota and cannot be undone.`,
+      )
+    )
+      return;
+    setBackfilling(true);
+    try {
+      const res = await fetch("/api/admin/backfill-emails", { method: "POST" });
+      const data = await res.json();
+      flash(
+        data.ok
+          ? `✓ welcome email sent to ${data.sent} member${data.sent === 1 ? "" : "s"}${data.failed ? ` · ${data.failed} failed` : ""}`
+          : `✕ ${data.error ?? "backfill failed"}`,
+      );
+      if (data.ok) router.refresh();
+    } catch {
+      flash("✕ network error during backfill");
+    } finally {
+      setBackfilling(false);
+    }
+  }
+
+  async function deleteMember(m: DashboardMember) {
+    if (deletingId !== null) return;
+    if (
+      !window.confirm(
+        `delete ${m.email} from the waitlist?\n\nthis removes their position and cannot be undone.`,
+      )
+    )
+      return;
+    setDeletingId(m.id);
+    try {
+      const res = await fetch("/api/admin/delete-member", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: m.id }),
+      });
+      const data = await res.json();
+      flash(
+        data.ok
+          ? `✓ deleted ${m.email}`
+          : `✕ ${data.error ?? "delete failed"}`,
+      );
+      if (data.ok) router.refresh();
+    } catch {
+      flash("✕ network error during delete");
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -132,6 +193,15 @@ export function Dashboard({
               className="border border-line px-3.5 py-2 font-mono text-[11px] tracking-[0.03em] text-muted transition-colors duration-150 hover:border-line-strong hover:text-ink"
             >
               export csv
+            </button>
+            <button
+              type="button"
+              onClick={backfillEmails}
+              disabled={backfilling || pendingEmails === 0}
+              title="send the welcome email to members who joined before emails were live"
+              className="border border-line px-3.5 py-2 font-mono text-[11px] tracking-[0.03em] text-muted transition-colors duration-150 hover:border-line-strong hover:text-ink disabled:opacity-40 disabled:hover:border-line disabled:hover:text-muted"
+            >
+              {backfilling ? "sending…" : `welcome ${pendingEmails} older signups`}
             </button>
             <button
               type="button"
@@ -237,6 +307,7 @@ export function Dashboard({
                   <th className="px-5 py-3 font-medium">source</th>
                   <th className="px-5 py-3 font-medium">joined</th>
                   <th className="px-5 py-3 font-medium">sheets</th>
+                  <th className="px-5 py-3 font-medium">✕</th>
                 </tr>
               </thead>
               <tbody>
@@ -273,11 +344,23 @@ export function Dashboard({
                         <span className="font-mono text-[11px] text-dim">· pending</span>
                       )}
                     </td>
+                    <td className="px-5 py-3 text-right">
+                      <button
+                        type="button"
+                        onClick={() => deleteMember(m)}
+                        disabled={deletingId !== null}
+                        aria-label={`delete ${m.email}`}
+                        title={`delete ${m.email}`}
+                        className="border border-transparent px-2 py-1 font-mono text-xs text-dim transition-colors duration-150 hover:border-line-strong hover:text-ink disabled:opacity-40"
+                      >
+                        {deletingId === m.id ? "…" : "✕"}
+                      </button>
+                    </td>
                   </tr>
                 ))}
                 {filtered.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="px-5 py-16 text-center">
+                    <td colSpan={7} className="px-5 py-16 text-center">
                       <p className="font-mono text-sm text-dim">
                         {members.length === 0
                           ? "no members yet — share ramyaai.tech and watch this fill up."

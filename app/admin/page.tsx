@@ -33,6 +33,12 @@ export default async function AdminPage() {
         : r.lastSyncedAt
           ? String(r.lastSyncedAt)
           : null,
+    welcomeEmailSentAt:
+      r.welcomeEmailSentAt instanceof Date
+        ? r.welcomeEmailSentAt.toISOString()
+        : r.welcomeEmailSentAt
+          ? String(r.welcomeEmailSentAt)
+          : null,
   }));
 
   let settings: Record<string, string> = {};

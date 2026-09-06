@@ -16,6 +16,9 @@ export default async function ProfilePage() {
   const member = await getCurrentMember();
   if (!member) redirect("/");
 
+  // greet by first name, never by an id
+  const first = (member.name ?? "").trim().split(/\s+/)[0];
+
   return (
     <>
       <Nav member={member} />
@@ -23,16 +26,16 @@ export default async function ProfilePage() {
         <section className="mx-auto max-w-6xl px-5 pb-24 pt-32 sm:pt-40">
           <p className="font-mono text-[11px] tracking-[0.2em] text-dim">your spot</p>
           <h1 className="mt-7 text-5xl font-bold leading-[1.02] tracking-[-0.035em] text-ink sm:text-7xl">
-            you&apos;re in.
+            hey {first || "there"}.
           </h1>
           <p className="mt-6 max-w-md text-sm leading-relaxed text-muted sm:text-base">
-            your position is locked. we&apos;ll email you the moment the aura desktop
-            beta opens — one signup covers ramya flow early access too.
+            your spot in the aura desktop beta is locked. we&apos;ll email you the
+            moment it opens — one signup covers ramya flow early access too.
           </p>
 
           <div className="mt-10 w-full max-w-md border border-line-strong bg-surface px-5 py-5">
             <p className="font-mono text-[11px] tracking-[0.12em] text-muted">
-              waitlist position
+              position in line
             </p>
             <p className="mt-1 font-mono text-4xl font-bold tracking-[-0.02em] text-ink">
               #{String(member.position).padStart(5, "0")}
