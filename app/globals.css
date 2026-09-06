@@ -1,26 +1,116 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── ramya ai · design tokens (per designguide.md §3) ─────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* light theme · crisp alabaster */
+  --bg-base: #ffffff;
+  --surface-1: #f8fafc;
+  --surface-2: #f1f5f9;
+  --line: #e2e8f0;
+  --accent: #0891b2;
+  --local: #059669;
+  --cloud: #6366f1;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --dim: #94a3b8;
+  --accent-soft: rgba(8, 145, 178, 0.1);
+}
+
+.dark {
+  /* dark theme · dark obsidian pro (default) */
+  --bg-base: #08090a;
+  --surface-1: #0f1115;
+  --surface-2: #171a21;
+  --line: #222733;
+  --accent: #00f0ff;
+  --local: #34d399;
+  --cloud: #818cf8;
+  --ink: #f8fafc;
+  --muted: #94a3b8;
+  --dim: #64748b;
+  --accent-soft: rgba(0, 240, 255, 0.07);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-base: var(--bg-base);
+  --color-surface: var(--surface-1);
+  --color-elevated: var(--surface-2);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-local: var(--local);
+  --color-cloud: var(--cloud);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-base);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent);
+  color: #08090a;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* ── signature utilities ────────────────────────────────────────────────── */
+
+/* frosted glass surface (nav, overlays) */
+.glass {
+  background: color-mix(in srgb, var(--bg-base) 74%, transparent);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+}
+
+/* hairline engineering grid backdrop */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* cyan → violet brand gradient text */
+.text-gradient {
+  background: linear-gradient(100deg, var(--accent) 0%, var(--cloud) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* cursor-tracking ambient card glow (designguide.md §6.2) */
+.glow-spot {
+  background: radial-gradient(
+    340px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--accent) 11%, transparent),
+    transparent 72%
+  );
 }
