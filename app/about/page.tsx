@@ -51,7 +51,7 @@ export default async function AboutPage() {
           <Glow className="left-1/2 top-[-30%] h-[32rem] w-[32rem] -translate-x-1/2" />
           <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-36 sm:pt-44">
             <Reveal>
-              <p className="font-mono text-[11px] tracking-[0.2em] text-dim">about</p>
+              <p className="eyebrow">about</p>
             </Reveal>
             <HeroLines
               className="font-display mt-8 text-[13vw] font-bold leading-[1.02] tracking-[-0.04em] text-ink sm:text-7xl lg:text-[5.2rem]"
@@ -94,7 +94,7 @@ export default async function AboutPage() {
         <section className="border-t border-line">
           <div className="mx-auto max-w-6xl px-5 py-20 sm:py-28">
             <Reveal>
-              <p className="font-mono text-[11px] tracking-[0.2em] text-dim">
+              <p className="eyebrow">
                 what we believe
               </p>
             </Reveal>
@@ -112,7 +112,7 @@ export default async function AboutPage() {
         <section className="border-t border-line">
           <div className="mx-auto max-w-4xl px-5 py-24 text-center sm:py-28">
             <Reveal>
-              <p className="font-mono text-[11px] tracking-[0.2em] text-dim">
+              <p className="eyebrow">
                 the vision
               </p>
             </Reveal>

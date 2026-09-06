@@ -15,7 +15,7 @@ export function Hero({ member }: HeroProps) {
       <Glow className="left-1/2 top-[-18%] h-[40rem] w-[40rem] -translate-x-1/2" />
       <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-36 text-center sm:pb-32 sm:pt-44">
         <Reveal>
-          <p className="font-mono text-[11px] tracking-[0.2em] text-dim">
+          <p className="eyebrow">
             ramya ai · from india
           </p>
         </Reveal>

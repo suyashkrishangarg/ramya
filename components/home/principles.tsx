@@ -24,7 +24,7 @@ export function Principles() {
     <section className="border-t border-line">
       <div className="mx-auto max-w-6xl px-5 py-20 sm:py-28">
         <Reveal>
-          <p className="font-mono text-[11px] tracking-[0.2em] text-dim">
+          <p className="eyebrow">
             what we believe
           </p>
         </Reveal>

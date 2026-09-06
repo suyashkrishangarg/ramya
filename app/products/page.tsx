@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer";
 import { BadgePill } from "@/components/badge-pill";
 import { ListRow } from "@/components/list-row";
 import { Reveal } from "@/components/reveal";
+import { CursorGlow } from "@/components/cursor-glow";
 import { PrimaryButton, GhostButton } from "@/components/buttons";
 import { CtaBand } from "@/components/home/cta-band";
 import { getCurrentMember } from "@/lib/member";
@@ -192,7 +193,7 @@ export default async function ProductsPage() {
         {/* hero */}
         <section className="mx-auto max-w-6xl px-5 pb-20 pt-32 sm:pt-40">
           <Reveal>
-            <p className="font-mono text-[11px] tracking-[0.2em] text-dim">products</p>
+            <p className="eyebrow">products</p>
           </Reveal>
           <Reveal delay={0.06}>
             <h1 className="font-display mt-7 text-6xl font-bold leading-[1.02] tracking-[-0.035em] text-ink sm:text-8xl">
@@ -216,21 +217,20 @@ export default async function ProductsPage() {
           <div className="mx-auto grid max-w-6xl gap-5 px-5 py-14 md:grid-cols-2">
             {JUMP_CARDS.map((p, i) => (
               <Reveal key={p.name} delay={i * 0.08}>
-                <a
-                  href={p.href}
-                  className="card-lift block border border-line bg-surface p-8 sm:p-10"
-                >
-                  <BadgePill dot={p.dot}>{p.badge}</BadgePill>
-                  <h2 className="font-display mt-6 text-3xl font-bold tracking-[-0.02em] text-ink">
-                    {p.name}
-                  </h2>
-                  <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
-                    {p.body}
-                  </p>
-                  <p className="mt-8 font-mono text-[11px] tracking-[0.12em] text-dim">
-                    learn more ➔
-                  </p>
-                </a>
+                <CursorGlow className="card-lift block border border-line bg-surface p-8 sm:p-10">
+                  <a href={p.href} className="block">
+                    <BadgePill dot={p.dot}>{p.badge}</BadgePill>
+                    <h2 className="font-display mt-6 text-3xl font-bold tracking-[-0.02em] text-ink">
+                      {p.name}
+                    </h2>
+                    <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
+                      {p.body}
+                    </p>
+                    <p className="mt-8 font-mono text-[11px] tracking-[0.12em] text-dim">
+                      learn more ➔
+                    </p>
+                  </a>
+                </CursorGlow>
               </Reveal>
             ))}
           </div>
@@ -242,7 +242,7 @@ export default async function ProductsPage() {
             <div className="md:col-span-4">
               <Reveal>
                 <div className="flex items-baseline gap-3">
-                  <span className="font-mono text-[11px] tracking-[0.2em] text-dim">01</span>
+                  <span className="eyebrow">01</span>
                   <span className="h-px w-8 bg-line-strong" aria-hidden="true" />
                 </div>
                 <h2 className="font-display mt-4 text-3xl font-semibold tracking-[-0.02em] text-ink">
@@ -290,7 +290,7 @@ export default async function ProductsPage() {
           <div className="border-t border-line">
             <div className="mx-auto max-w-6xl px-5 py-20 sm:py-24">
               <Reveal>
-                <p className="font-mono text-[11px] tracking-[0.2em] text-dim">
+                <p className="eyebrow">
                   the hybrid engine
                 </p>
                 <h3 className="mt-4 max-w-xl text-2xl font-semibold leading-[1.2] tracking-[-0.02em] text-ink sm:text-3xl">
@@ -316,7 +316,7 @@ export default async function ProductsPage() {
 
               {/* why hybrid — comparison */}
               <Reveal>
-                <p className="mt-16 font-mono text-[11px] tracking-[0.2em] text-dim">
+                <p className="mt-16 eyebrow">
                   why hybrid
                 </p>
                 <h3 className="mt-4 max-w-xl text-2xl font-semibold leading-[1.2] tracking-[-0.02em] text-ink sm:text-3xl">
@@ -391,7 +391,7 @@ export default async function ProductsPage() {
             <div className="md:col-span-4">
               <Reveal>
                 <div className="flex items-baseline gap-3">
-                  <span className="font-mono text-[11px] tracking-[0.2em] text-dim">02</span>
+                  <span className="eyebrow">02</span>
                   <span className="h-px w-8 bg-line-strong" aria-hidden="true" />
                 </div>
                 <h2 className="font-display mt-4 text-3xl font-semibold tracking-[-0.02em] text-ink">

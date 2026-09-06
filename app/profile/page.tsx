@@ -24,7 +24,7 @@ export default async function ProfilePage() {
       <Nav member={member} />
       <main className="flex-1">
         <section className="mx-auto max-w-6xl px-5 pb-24 pt-32 sm:pt-40">
-          <p className="font-mono text-[11px] tracking-[0.2em] text-dim">your spot</p>
+          <p className="eyebrow">your spot</p>
           <h1 className="font-display mt-7 text-5xl font-bold leading-[1.02] tracking-[-0.035em] text-ink sm:text-7xl">
             hey {first || "there"}.
           </h1>

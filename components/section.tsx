@@ -18,7 +18,7 @@ export function SectionHeader({
     <div className="md:col-span-4">
       <Reveal>
         <div className="flex items-baseline gap-3">
-          <span className="font-mono text-[11px] tracking-[0.2em] text-dim">{index}</span>
+          <span className="eyebrow">{index}</span>
           <span className="h-px w-8 bg-line-strong" aria-hidden="true" />
         </div>
         <h2 className="font-display mt-4 text-2xl font-semibold leading-[1.15] tracking-[-0.02em] text-ink sm:text-3xl">

@@ -177,3 +177,32 @@ body {
     transform: none;
   }
 }
+
+/* ── consistency tokens & utilities ──────────────────────────────────────── */
+
+/* section eyebrow — one definition instead of copy-pasted class strings */
+.eyebrow {
+  @apply font-mono text-[11px] tracking-[0.2em] text-dim;
+}
+
+/* cursor-following ambient card glow (designguide §6.2) */
+.cursor-glow {
+  position: relative;
+  overflow: hidden;
+}
+.cursor-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(244, 244, 243, 0.07),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.cursor-glow:hover::before {
+  opacity: 1;
+}

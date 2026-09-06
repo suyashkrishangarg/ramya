@@ -6,7 +6,7 @@ export function FromIndia() {
     <section className="border-t border-line">
       <div className="mx-auto max-w-4xl px-5 py-24 text-center sm:py-28">
         <Reveal>
-          <p className="font-mono text-[11px] tracking-[0.2em] text-dim">
+          <p className="eyebrow">
             from india, for the world
           </p>
         </Reveal>

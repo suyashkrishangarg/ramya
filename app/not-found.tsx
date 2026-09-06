@@ -7,7 +7,7 @@ export default function NotFound() {
     <main className="flex min-h-screen flex-1 items-center px-5">
       <div className="mx-auto w-full max-w-6xl">
         <Logo />
-        <p className="mt-10 font-mono text-[11px] tracking-[0.2em] text-dim">error 404</p>
+        <p className="mt-10 eyebrow">error 404</p>
         <h1 className="mt-4 text-5xl font-bold leading-[1.02] tracking-[-0.035em] text-ink sm:text-7xl">
           this page wandered
           <br />

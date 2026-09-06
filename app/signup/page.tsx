@@ -45,7 +45,7 @@ export default async function SignupPage({ searchParams }: SignupProps) {
           <Glow className="left-1/2 top-[-18%] h-[36rem] w-[36rem] -translate-x-1/2" />
           <div className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pb-28 pt-36 text-center sm:pt-44">
             <Reveal>
-              <p className="font-mono text-[11px] tracking-[0.2em] text-dim">
+              <p className="eyebrow">
                 aura desktop beta
               </p>
             </Reveal>

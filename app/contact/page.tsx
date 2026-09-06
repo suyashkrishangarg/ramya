@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer";
 import { HeroLines } from "@/components/hero-lines";
 import { Glow } from "@/components/glow";
 import { Reveal } from "@/components/reveal";
+import { CursorGlow } from "@/components/cursor-glow";
 import { getCurrentMember } from "@/lib/member";
 import { KNOWN_LINKS, getSettings } from "@/lib/settings";
 
@@ -39,7 +40,7 @@ export default async function ContactPage() {
           <Glow className="left-1/2 top-[-30%] h-[32rem] w-[32rem] -translate-x-1/2" />
           <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-36 sm:pt-44">
             <Reveal>
-              <p className="font-mono text-[11px] tracking-[0.2em] text-dim">
+              <p className="eyebrow">
                 contact
               </p>
             </Reveal>
@@ -75,47 +76,48 @@ export default async function ContactPage() {
 
             <div className="flex flex-col gap-5">
               <Reveal delay={0.08}>
-                <a
-                  href="mailto:ramya.ai.official@gmail.com"
-                  className="card-lift block border border-line bg-surface p-6"
-                >
-                  <p className="font-mono text-[10px] tracking-[0.15em] text-dim">
-                    email
-                  </p>
-                  <p className="mt-3 font-mono text-sm text-ink">
-                    ramya.ai.official@gmail.com
-                  </p>
-                  <p className="mt-2 font-mono text-[11px] tracking-[0.05em] text-dim">
-                    replies usually within a day ↗
-                  </p>
-                </a>
+                <CursorGlow className="card-lift block border border-line bg-surface p-6">
+                  <a href="mailto:ramya.ai.official@gmail.com" className="block">
+                    <p className="font-mono text-[10px] tracking-[0.15em] text-dim">
+                      email
+                    </p>
+                    <p className="mt-3 font-mono text-sm text-ink">
+                      ramya.ai.official@gmail.com
+                    </p>
+                    <p className="mt-2 font-mono text-[11px] tracking-[0.05em] text-dim">
+                      replies usually within a day ↗
+                    </p>
+                  </a>
+                </CursorGlow>
               </Reveal>
 
               {links.map((l, i) => (
                 <Reveal key={l.label} delay={0.12 + i * 0.05}>
-                  <a
-                    href={l.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="card-lift block border border-line bg-surface p-6"
-                  >
-                    <p className="font-mono text-[10px] tracking-[0.15em] text-dim">
-                      social
-                    </p>
-                    <p className="mt-3 font-mono text-sm text-ink">
-                      {l.label} ↗
-                    </p>
-                  </a>
+                  <CursorGlow className="card-lift block border border-line bg-surface p-6">
+                    <a
+                      href={l.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <p className="font-mono text-[10px] tracking-[0.15em] text-dim">
+                        social
+                      </p>
+                      <p className="mt-3 font-mono text-sm text-ink">
+                        {l.label} ↗
+                      </p>
+                    </a>
+                  </CursorGlow>
                 </Reveal>
               ))}
 
               <Reveal delay={0.2}>
-                <div className="border border-line bg-surface p-6">
+                <CursorGlow className="block border border-line bg-surface p-6">
                   <p className="font-mono text-[10px] tracking-[0.15em] text-dim">
                     location
                   </p>
                   <p className="mt-3 font-mono text-sm text-ink">india · remote</p>
-                </div>
+                </CursorGlow>
               </Reveal>
             </div>
           </div>

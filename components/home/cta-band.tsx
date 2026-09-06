@@ -7,7 +7,7 @@ export function CtaBand() {
     <section className="border-t border-line">
       <div className="mx-auto max-w-6xl px-5 py-20 text-center sm:py-24">
         <Reveal>
-          <p className="font-mono text-[11px] tracking-[0.2em] text-dim">
+          <p className="eyebrow">
             limited beta access
           </p>
           <h2 className="font-display mt-5 text-3xl font-bold tracking-[-0.025em] text-ink sm:text-4xl">
