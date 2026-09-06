@@ -50,6 +50,107 @@ const AURA_FEATURES = [
   },
 ];
 
+const ENGINE_ROWS = [
+  {
+    index: "e1",
+    title: "1-click desktop app",
+    body: "clean, zero-code interface for both technical and non-technical users. no cli. no config files. install and go.",
+  },
+  {
+    index: "e2",
+    title: "free & private local engine",
+    body: "routine sub-tasks execute directly on your device — 100% free, 100% private.",
+  },
+  {
+    index: "e3",
+    title: "cost-optimized cloud mesh",
+    body: "deep reasoning offloads seamlessly to fine-tuned, high-intelligence cloud models.",
+  },
+  {
+    index: "e4",
+    title: "user choice & flexibility",
+    body: "local inference is 100% free. pay only for cloud power at up to 80% lower cost — with bring-your-own-key support.",
+  },
+];
+
+type Cell = { text: string; bad?: boolean; good?: boolean };
+
+const COMPARE_COLS = ["pure cloud ai", "pure local ai", "ramya hybrid"];
+
+const COMPARE_ROWS: { label: string; cells: [Cell, Cell, Cell] }[] = [
+  {
+    label: "monthly cost",
+    cells: [
+      { text: "$20–$50+ per user", bad: true },
+      { text: "$0 (your hardware)", good: true },
+      { text: "$0 local + low-cost cloud", good: true },
+    ],
+  },
+  {
+    label: "privacy",
+    cells: [
+      { text: "files uploaded to remote servers", bad: true },
+      { text: "fully on-device", good: true },
+      { text: "sensitive files never leave your machine", good: true },
+    ],
+  },
+  {
+    label: "setup",
+    cells: [
+      { text: "instant", good: true },
+      { text: "complex and technical", bad: true },
+      { text: "1-click desktop app", good: true },
+    ],
+  },
+  {
+    label: "deep reasoning",
+    cells: [
+      { text: "strong", good: true },
+      { text: "weak on consumer hardware", bad: true },
+      { text: "strong — cost-optimized cloud mesh", good: true },
+    ],
+  },
+  {
+    label: "usage limits",
+    cells: [
+      { text: "strict caps interrupt work", bad: true },
+      { text: "none", good: true },
+      { text: "none on local work", good: true },
+    ],
+  },
+];
+
+function CompareCell({ cell, strong }: { cell: Cell; strong?: boolean }) {
+  const mark = cell.bad ? "—" : cell.good ? "+" : "";
+  return (
+    <span
+      className={`text-[13px] leading-relaxed ${
+        strong ? "text-ink" : cell.bad ? "text-dim" : "text-muted"
+      }`}
+    >
+      {mark && <span className="mr-1.5 font-mono">{mark}</span>}
+      {cell.text}
+    </span>
+  );
+}
+
+const JUMP_CARDS = [
+  {
+    href: "#aura",
+    name: "aura desktop",
+    badge: "beta · waitlist open",
+    dot: "bg-white",
+    body: "the universal hybrid agent platform. one install — every task runs on the cheapest capable layer.",
+  },
+  {
+    href: "#flow",
+    name: "ramya flow",
+    badge: "in idea · coming later",
+    dot: "bg-dim",
+    body: "video & animation, generated from words. cloud-rendered — no timeline, no editing software.",
+  },
+];
+
 const FLOW_FEATURES = [
   {
     index: "01",
@@ -111,8 +212,33 @@ export default async function ProductsPage() {
             </p>
           </Reveal>
         </section>
-        {/* product 01 · aura desktop */}
+        {/* jump cards */}
         <section className="border-t border-line">
+          <div className="mx-auto grid max-w-6xl gap-5 px-5 py-14 md:grid-cols-2">
+            {JUMP_CARDS.map((p, i) => (
+              <Reveal key={p.name} delay={i * 0.08}>
+                <a
+                  href={p.href}
+                  className="card-lift block border border-line bg-surface p-8 sm:p-10"
+                >
+                  <BadgePill dot={p.dot}>{p.badge}</BadgePill>
+                  <h2 className="mt-6 text-3xl font-bold tracking-[-0.02em] text-ink">
+                    {p.name}
+                  </h2>
+                  <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
+                    {p.body}
+                  </p>
+                  <p className="mt-8 font-mono text-[11px] tracking-[0.12em] text-dim">
+                    learn more ➔
+                  </p>
+                </a>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        {/* product 01 · aura desktop */}
+        <section id="aura" className="scroll-mt-20 border-t border-line">
           <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:py-28 md:grid-cols-12">
             <div className="md:col-span-4">
               <Reveal>
@@ -160,10 +286,108 @@ export default async function ProductsPage() {
               </Reveal>
             </div>
           </div>
+
+          {/* the hybrid engine */}
+          <div className="border-t border-line">
+            <div className="mx-auto max-w-6xl px-5 py-20 sm:py-24">
+              <Reveal>
+                <p className="font-mono text-[11px] tracking-[0.2em] text-dim">
+                  the hybrid engine
+                </p>
+                <h3 className="mt-4 max-w-xl text-2xl font-semibold leading-[1.2] tracking-[-0.02em] text-ink sm:text-3xl">
+                  every task routes to the cheapest layer capable of doing it.
+                </h3>
+              </Reveal>
+              <div className="mt-10">
+                {ENGINE_ROWS.map((f) => (
+                  <ListRow key={f.index} {...f} />
+                ))}
+              </div>
+              <Reveal>
+                <div className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 border border-line bg-surface px-5 py-4 font-mono text-[11px] tracking-[0.04em] text-muted sm:gap-x-4">
+                  <span className="text-ink">you give a task</span>
+                  <span className="text-dim" aria-hidden="true">→</span>
+                  <span>local engine clears the routine</span>
+                  <span className="text-dim" aria-hidden="true">→</span>
+                  <span>cloud mesh clears the deep</span>
+                  <span className="text-dim" aria-hidden="true">→</span>
+                  <span className="text-ink">done</span>
+                </div>
+              </Reveal>
+
+              {/* why hybrid — comparison */}
+              <Reveal>
+                <p className="mt-16 font-mono text-[11px] tracking-[0.2em] text-dim">
+                  why hybrid
+                </p>
+                <h3 className="mt-4 max-w-xl text-2xl font-semibold leading-[1.2] tracking-[-0.02em] text-ink sm:text-3xl">
+                  two flawed extremes — and the engine between them.
+                </h3>
+              </Reveal>
+              <Reveal delay={0.08}>
+                <div className="mt-10 overflow-x-auto">
+                  <table className="w-full min-w-[560px] border-collapse text-left">
+                    <thead>
+                      <tr>
+                        <th className="w-28 pb-4 pr-4 font-mono text-[10px] font-medium tracking-[0.15em] text-dim">
+                          compare
+                        </th>
+                        {COMPARE_COLS.map((c, i) => (
+                          <th
+                            key={c}
+                            className={`pb-4 pr-4 font-mono text-[10px] font-medium tracking-[0.15em] last:pr-0 ${
+                              i === 2 ? "text-ink" : "text-dim"
+                            }`}
+                          >
+                            {c}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {COMPARE_ROWS.map((row) => (
+                        <tr
+                          key={row.label}
+                          className="border-t border-line transition-colors duration-150 hover:bg-surface"
+                        >
+                          <td className="py-4 pr-4 align-top font-mono text-[11px] tracking-[0.05em] text-muted">
+                            {row.label}
+                          </td>
+                          {row.cells.map((cell, i) => (
+                            <td
+                              key={i}
+                              className={`py-4 pr-4 align-top last:pr-0 ${
+                                i === 2 ? "border-x border-line-strong bg-surface/60 px-3" : ""
+                              }`}
+                            >
+                              <CompareCell cell={cell} strong={i === 2} />
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Reveal>
+              <Reveal delay={0.12}>
+                <div className="mt-10 border border-line-strong bg-surface px-6 py-6">
+                  <p className="font-mono text-[11px] tracking-[0.15em] text-dim">the gap</p>
+                  <p className="mt-3 max-w-lg text-lg font-medium leading-relaxed tracking-[-0.01em] text-ink">
+                    no simple desktop app bridges optimized local on-device execution with
+                    cost-efficient cloud escalation.
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-dim">
+                    today&apos;s workaround: juggling multiple paid subscriptions and copying
+                    data back and forth. manually.
+                  </p>
+                </div>
+              </Reveal>
+            </div>
+          </div>
         </section>
 
         {/* product 02 · ramya flow */}
-        <section className="border-t border-line">
+        <section id="flow" className="scroll-mt-20 border-t border-line">
           <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:py-28 md:grid-cols-12">
             <div className="md:col-span-4">
               <Reveal>
