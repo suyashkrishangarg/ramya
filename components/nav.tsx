@@ -7,9 +7,8 @@ import { PrimaryButton } from "./buttons";
 
 const LINKS = [
   { href: "/products", label: "products" },
-  { href: "/#why", label: "why" },
-  { href: "/#engine", label: "engine" },
-  { href: "/#vision", label: "vision" },
+  { href: "/about", label: "about" },
+  { href: "/contact", label: "contact" },
 ];
 
 type NavMember = { name: string | null; position: number } | null;

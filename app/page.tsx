@@ -3,11 +3,11 @@ import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Hero } from "@/components/home/hero";
 import { Marquee } from "@/components/marquee";
-import { Problem } from "@/components/home/problem";
-import { Gap } from "@/components/home/gap";
-import { Engine } from "@/components/home/engine";
-import { Market } from "@/components/home/market";
-import { Vision } from "@/components/home/vision";
+import { Manifesto } from "@/components/home/manifesto";
+import { Principles } from "@/components/home/principles";
+import { ProductCards } from "@/components/home/product-cards";
+import { HowItWorks } from "@/components/home/how-it-works";
+import { FromIndia } from "@/components/home/from-india";
 import { FinalCta } from "@/components/home/final-cta";
 import { supabaseConfigured } from "@/lib/supabase";
 import { getCurrentMember } from "@/lib/member";
@@ -49,18 +49,18 @@ export default async function Home({ searchParams }: HomeProps) {
     <>
       <Nav member={member} />
       <main className="flex-1">
-        <Hero
-          welcome={member ? { name: member.name, position: member.position } : null}
-          googleNotice={googleNotice}
-          googleConfigured={supabaseConfigured()}
-        />
+        <Hero member={member ? { name: member.name, position: member.position } : null} />
         <Marquee />
-        <Problem />
-        <Gap />
-        <Engine />
-        <Market />
-        <Vision />
-        <FinalCta googleConfigured={supabaseConfigured()} member={member} />
+        <Manifesto />
+        <Principles />
+        <ProductCards />
+        <HowItWorks />
+        <FromIndia />
+        <FinalCta
+          googleConfigured={supabaseConfigured()}
+          member={member}
+          googleNotice={googleNotice}
+        />
       </main>
       <Footer />
     </>

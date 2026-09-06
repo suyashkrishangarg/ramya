@@ -6,9 +6,10 @@ import { MemberCard } from "@/components/member-card";
 type FinalCtaProps = {
   googleConfigured: boolean;
   member?: { name: string | null; position: number } | null;
+  googleNotice?: "unconfigured" | "error" | null;
 };
 
-export function FinalCta({ googleConfigured, member }: FinalCtaProps) {
+export function FinalCta({ googleConfigured, member, googleNotice }: FinalCtaProps) {
   return (
     <section id="waitlist" className="scroll-mt-20 border-t border-line">
       <div className="mx-auto max-w-6xl px-5 py-24 sm:py-32">
@@ -38,6 +39,16 @@ export function FinalCta({ googleConfigured, member }: FinalCtaProps) {
               <>
                 <WaitlistCapsule />
                 {googleConfigured && <GoogleButton label="sign up with google" />}
+                {googleNotice === "unconfigured" && (
+                  <p className="font-mono text-[11px] tracking-[0.03em] text-dim">
+                    google sign-up activates once supabase is connected — see readme.
+                  </p>
+                )}
+                {googleNotice === "error" && (
+                  <p className="font-mono text-[11px] tracking-[0.03em] text-muted">
+                    google sign-up hit a snag — use the email form above.
+                  </p>
+                )}
               </>
             )}
           </div>

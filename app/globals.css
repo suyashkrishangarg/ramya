@@ -116,3 +116,45 @@ body {
   transform: scaleX(1);
   transform-origin: left;
 }
+
+/* ── kimi-grade motion layer ─────────────────────────────────────────────── */
+
+/* card hover micro-interaction — lift + border brighten */
+.card-lift {
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  border-color: var(--line-strong);
+}
+
+/* soft radial glow — depth without breaking the monochrome system */
+@keyframes glow-drift {
+  from {
+    transform: translate3d(-4%, -2%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(4%, 3%, 0) scale(1.08);
+  }
+}
+.glow {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgba(244, 244, 243, 0.07), transparent 70%);
+  animation: glow-drift 16s ease-in-out infinite alternate;
+  will-change: transform;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow {
+    animation: none;
+  }
+  .card-lift,
+  .card-lift:hover {
+    transform: none;
+  }
+}
