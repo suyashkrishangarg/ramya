@@ -11,52 +11,62 @@ import { supabaseConfigured } from "@/lib/supabase";
 export const metadata: Metadata = {
   title: "products",
   description:
-    "aura desktop — the universal hybrid agent platform. ramya flow — autonomous workflow automation. one hybrid engine: local first, cloud when it counts.",
+    "aura desktop — the universal hybrid agent platform. ramya flow — the video & animation generation platform. one hybrid engine: local first, cloud when it counts.",
 };
 
 const AURA_FEATURES = [
   {
     index: "01",
-    title: "1-click desktop app",
-    body: "clean, zero-code interface for technical and non-technical users. no cli. no config files. install and go.",
-  },
-  {
-    index: "02",
     title: "free & private local engine",
     body: "file searches, text summaries, data formatting and routine sub-tasks execute directly on your device — 100% free, 100% private.",
   },
   {
-    index: "03",
+    index: "02",
     title: "cost-optimized cloud mesh",
     body: "complex multi-step reasoning offloads seamlessly to fine-tuned, high-intelligence cloud models.",
   },
   {
+    index: "03",
+    title: "scheduled agents",
+    body: "agents that wake up on a schedule, do the work, and report back.",
+  },
+  {
     index: "04",
-    title: "byok & flexibility",
-    body: "bring your own keys and pay providers directly — or let ramya route for you at up to 80% lower cost.",
+    title: "multi-app pipelines",
+    body: "chain steps across your desktop tools into one repeatable flow.",
+  },
+  {
+    index: "05",
+    title: "human-in-the-loop approvals",
+    body: "sensitive steps pause for your confirmation before executing.",
+  },
+  {
+    index: "06",
+    title: "shared team library",
+    body: "publish flows your whole team can run — knowledge that compounds.",
   },
 ];
 
 const FLOW_FEATURES = [
   {
     index: "01",
-    title: "scheduled agents",
-    body: "agents that wake up on a schedule, do the work, and report back.",
+    title: "text-to-video generation",
+    body: "describe a scene in words — get a video back. no timeline, no editing software.",
   },
   {
     index: "02",
-    title: "multi-app pipelines",
-    body: "chain steps across your desktop tools into one repeatable flow.",
+    title: "character & style consistency",
+    body: "keep characters, motion and visual style coherent across every shot.",
   },
   {
     index: "03",
-    title: "human-in-the-loop approvals",
-    body: "sensitive steps pause for your confirmation before executing.",
+    title: "cloud-rendered platform",
+    body: "runs fully online — no install, no heavy gpu required.",
   },
   {
     index: "04",
-    title: "shared team library",
-    body: "publish flows your whole team can run — knowledge that compounds.",
+    title: "desktop bridge",
+    body: "aura desktop will connect to ramya flow features from the desktop app in the future.",
   },
 ];
 
@@ -113,8 +123,16 @@ export default function ProductsPage() {
                 </BadgePill>
                 <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted">
                   the universal hybrid agent platform — runs routine work locally for
-                  free and escalates deep reasoning to cost-optimized cloud models.
+                  free, escalates deep reasoning to cost-optimized cloud models, and
+                  automates workflows across your desktop apps.
                 </p>
+                <div className="mt-5 flex flex-wrap gap-x-3 gap-y-2 font-mono text-[10px] tracking-[0.08em] text-dim">
+                  <span>1-click install</span>
+                  <span>·</span>
+                  <span>byok</span>
+                  <span>·</span>
+                  <span>ramya flow access — future</span>
+                </div>
                 <PrimaryButton href="/#waitlist" className="mt-8">
                   join the aura beta ➔
                 </PrimaryButton>
@@ -152,12 +170,12 @@ export default function ProductsPage() {
                   ramya flow
                 </h2>
                 <BadgePill dot="bg-dim" className="mt-5">
-                  in design · coming soon
+                  in idea · coming later
                 </BadgePill>
                 <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted">
-                  autonomous workflow automation on top of the ramya engine — scheduled
-                  agents and multi-app pipelines that run where your work lives: your
-                  desktop.
+                  a web-based video & animation generation platform. describe an idea —
+                  get a motion piece. still in early idea phase; aura desktop will
+                  connect to its features in the future.
                 </p>
                 <GhostButton href="/#waitlist" className="mt-8">
                   join waitlist for early access
@@ -173,7 +191,7 @@ export default function ProductsPage() {
                     {...f}
                     right={
                       <span className="font-mono text-[10px] tracking-[0.12em] text-dim">
-                        planned
+                        in idea
                       </span>
                     }
                   />

@@ -3,7 +3,7 @@ const ITEMS = [
   "local inference — $0",
   "cloud reasoning — up to 80% cheaper",
   "bring your own key",
-  "ramya flow — in design",
+  "ramya flow — video & animation · in idea",
   "private by design",
 ];
 

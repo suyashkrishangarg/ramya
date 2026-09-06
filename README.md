@@ -7,7 +7,7 @@ motion and supabase.
 
 ```
 homepage      /            monochrome editorial landing + waitlist capsule
-products      /products    aura desktop (beta) · ramya flow (coming soon)
+products      /products    aura desktop (beta) · ramya flow (video & animation · in idea)
 waitlist api  POST /api/waitlist     email join → db + realtime sheets push
 counter       GET  /api/waitlist      live member count
 google oauth  /auth/google           real "continue with google" via supabase
