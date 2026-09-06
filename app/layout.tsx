@@ -6,14 +6,17 @@ import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  preload: false, // body font — loads on demand, doesn't block first paint
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  preload: false, // technical accents only — no preload needed
 });
 
 // v2 display face — geometric, techy, still professional. headings only.
+// the only preloaded font: it renders the above-fold hero headline.
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],

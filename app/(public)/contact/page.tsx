@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { Nav } from "@/components/nav";
+import { NavShell } from "@/components/nav-shell";
 import { Footer } from "@/components/footer";
 import { HeroLines } from "@/components/hero-lines";
 import { Glow } from "@/components/glow";
 import { Reveal } from "@/components/reveal";
 import { CursorGlow } from "@/components/cursor-glow";
-import { getCurrentMember } from "@/lib/member";
 import { KNOWN_LINKS, getSettings } from "@/lib/settings";
 
 export const dynamic = "force-dynamic";
@@ -18,8 +17,6 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactPage() {
-  const member = await getCurrentMember();
-
   // socials are admin-managed — same settings that drive the footer
   let links: { label: string; url: string }[] = [];
   try {
@@ -34,10 +31,11 @@ export default async function ContactPage() {
 
   return (
     <>
-      <Nav member={member} />
+      <NavShell />
       <main className="flex-1">
         {/* hero */}
         <section className="relative overflow-hidden">
+          {/* contact hero glow */}
           <Glow className="left-1/2 top-[-30%] h-[32rem] w-[32rem] -translate-x-1/2" />
           <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-36 sm:pt-44">
             <Reveal>

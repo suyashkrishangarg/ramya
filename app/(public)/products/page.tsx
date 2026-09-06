@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
-import { Nav } from "@/components/nav";
+import nextDynamic from "next/dynamic";
+import { NavShell } from "@/components/nav-shell";
 import { Footer } from "@/components/footer";
 import { BadgePill } from "@/components/badge-pill";
 import { ListRow } from "@/components/list-row";
 import { Reveal } from "@/components/reveal";
 import { CursorGlow } from "@/components/cursor-glow";
-import { TaskRouter } from "@/components/task-router";
+import { BlockSkeleton } from "@/components/skeletons";
 import { JsonLd } from "@/components/json-ld";
 import { PrimaryButton, GhostButton } from "@/components/buttons";
 import { CtaBand } from "@/components/home/cta-band";
-import { getCurrentMember } from "@/lib/member";
+
+// try-the-engine demo — client widget below the fold, lazy-loaded on scroll
+const TaskRouter = nextDynamic(
+  () => import("@/components/task-router").then((m) => m.TaskRouter),
+  { loading: () => <BlockSkeleton className="mt-12" /> },
+);
 
 export const dynamic = "force-dynamic";
 
@@ -189,11 +195,9 @@ const AUDIENCES = [
 ];
 
 export default async function ProductsPage() {
-  const member = await getCurrentMember();
-
   return (
     <>
-      <Nav member={member} />
+      <NavShell />
       <main className="flex-1">
         {/* hero */}
         <section className="mx-auto max-w-6xl px-5 pb-20 pt-32 sm:pt-40">

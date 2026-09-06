@@ -1,15 +1,10 @@
 import { Reveal } from "@/components/reveal";
 import { HeroLines } from "@/components/hero-lines";
 import { Glow } from "@/components/glow";
-import { PrimaryButton, GhostButton } from "@/components/buttons";
-import { MemberCard } from "@/components/member-card";
-
-type HeroProps = {
-  member: { name: string | null; position: number } | null;
-};
+import { HeroMemberCta } from "@/components/home/hero-member-cta";
 
 /** vision-first hero — one statement, lots of air, masked line-rise entrance */
-export function Hero({ member }: HeroProps) {
+export function Hero() {
   return (
     <section className="relative overflow-hidden">
       <Glow className="left-1/2 top-[-18%] h-[40rem] w-[40rem] -translate-x-1/2" />
@@ -35,17 +30,7 @@ export function Hero({ member }: HeroProps) {
         </Reveal>
 
         <Reveal delay={0.5}>
-          {member ? (
-            <div className="mt-10 flex flex-col items-center gap-6">
-              <MemberCard name={member.name} position={member.position} />
-              <GhostButton href="/products">see the products →</GhostButton>
-            </div>
-          ) : (
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <PrimaryButton href="/signup">join the beta ➔</PrimaryButton>
-              <GhostButton href="/products">see the products →</GhostButton>
-            </div>
-          )}
+          <HeroMemberCta />
         </Reveal>
       </div>
     </section>

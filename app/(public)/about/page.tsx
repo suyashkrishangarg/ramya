@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Nav } from "@/components/nav";
+import { NavShell } from "@/components/nav-shell";
 import { Footer } from "@/components/footer";
 import { HeroLines } from "@/components/hero-lines";
 import { Glow } from "@/components/glow";
 import { Reveal } from "@/components/reveal";
 import { ListRow } from "@/components/list-row";
 import { PrimaryButton } from "@/components/buttons";
-import { getCurrentMember } from "@/lib/member";
 
 export const dynamic = "force-dynamic";
 
@@ -41,11 +40,9 @@ const PRINCIPLES = [
 ];
 
 export default async function AboutPage() {
-  const member = await getCurrentMember();
-
   return (
     <>
-      <Nav member={member} />
+      <NavShell />
       <main className="flex-1">
         {/* hero */}
         <section className="relative overflow-hidden">

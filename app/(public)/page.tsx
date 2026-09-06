@@ -1,6 +1,7 @@
 import { Reveal } from "@/components/reveal";
 import { redirect } from "next/navigation";
-import { Nav } from "@/components/nav";
+import nextDynamic from "next/dynamic";
+import { NavShell } from "@/components/nav-shell";
 import { Footer } from "@/components/footer";
 import { Hero } from "@/components/home/hero";
 import { Marquee } from "@/components/marquee";
@@ -8,12 +9,21 @@ import { Manifesto } from "@/components/home/manifesto";
 import { Principles } from "@/components/home/principles";
 import { ProductCards } from "@/components/home/product-cards";
 import { HowItWorks } from "@/components/home/how-it-works";
-import { CostCalculator } from "@/components/cost-calculator";
 import { FromIndia } from "@/components/home/from-india";
 import { CtaBand } from "@/components/home/cta-band";
-import { Faq, type FaqItem } from "@/components/faq";
+import type { FaqItem } from "@/components/faq";
+import { FaqSkeleton, BlockSkeleton } from "@/components/skeletons";
 import { JsonLd } from "@/components/json-ld";
-import { getCurrentMember } from "@/lib/member";
+
+// below-the-fold interactive widgets — split into their own chunks, loaded
+// on scroll so they never block first paint. skeletons keep layout stable.
+const CostCalculator = nextDynamic(
+  () => import("@/components/cost-calculator").then((m) => m.CostCalculator),
+  { loading: () => <BlockSkeleton className="mt-16" /> },
+);
+const Faq = nextDynamic(() => import("@/components/faq").then((m) => m.Faq), {
+  loading: () => <FaqSkeleton />,
+});
 
 const FAQ_ITEMS: FaqItem[] = [
   {
@@ -66,14 +76,11 @@ export default async function Home({ searchParams }: HomeProps) {
     redirect(`/signup?google=${params.google}`);
   }
 
-  // signed-in google member or signed-up email member → personalized state
-  const member = await getCurrentMember();
-
   return (
     <>
-      <Nav member={member} />
+      <NavShell />
       <main className="flex-1">
-        <Hero member={member ? { name: member.name, position: member.position } : null} />
+        <Hero />
         <Marquee />
         <Manifesto />
         <Principles />
