@@ -207,39 +207,25 @@ body {
   opacity: 1;
 }
 
-/* ── skeleton shimmer — the loading illusion ─────────────────────────────── */
+/* ── skeleton — quiet pulse for lazy below-fold widgets only ─────────────── */
 
-@keyframes skeleton-shimmer {
-  from {
-    background-position: -200% 0;
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
   }
-  to {
-    background-position: 200% 0;
+  50% {
+    opacity: 0.8;
   }
 }
 .skeleton {
-  position: relative;
-  overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--line);
-}
-.skeleton::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(244, 244, 243, 0.07),
-    transparent
-  );
-  background-size: 200% 100%;
-  animation: skeleton-shimmer 1.6s infinite;
-  pointer-events: none;
+  animation: skeleton-pulse 2.4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .skeleton::after {
+  .skeleton {
     animation: none;
   }
 }

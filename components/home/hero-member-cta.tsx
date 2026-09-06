@@ -1,23 +1,13 @@
-import { Suspense } from "react";
-import { HeroCtaSkeleton } from "@/components/skeletons";
 import { MemberCard } from "@/components/member-card";
 import { PrimaryButton, GhostButton } from "@/components/buttons";
 import { getCurrentMember } from "@/lib/member";
 
 /**
- * hero CTA streaming boundary — the hero headline and copy flush to the
- * browser immediately; only this small area (join buttons or member card)
- * waits for the member lookup, showing a skeleton meanwhile.
+ * hero CTA — member card for signed-in/up visitors, join buttons otherwise.
+ * synchronous on purpose: guests resolve instantly (cookie fast-path), so
+ * the real buttons render in the first paint — no skeleton flash.
  */
-export function HeroMemberCta() {
-  return (
-    <Suspense fallback={<HeroCtaSkeleton />}>
-      <ResolveCta />
-    </Suspense>
-  );
-}
-
-async function ResolveCta() {
+export async function HeroMemberCta() {
   const member = await getCurrentMember();
   if (member) {
     return (

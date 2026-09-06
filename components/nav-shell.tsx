@@ -1,22 +1,12 @@
-import { Suspense } from "react";
 import { Nav } from "./nav";
-import { NavSkeleton } from "./skeletons";
 import { getCurrentMember } from "@/lib/member";
 
 /**
- * streaming nav boundary — the page shell renders instantly; the member
- * lookup (cookies → maybe supabase → maybe db) happens here, behind a
- * skeleton, instead of blocking first paint.
+ * member-aware nav. no Suspense/skeleton on purpose: guests resolve with
+ * zero network calls (cookie fast-path), so the real nav renders in the
+ * first paint. members pay one quick lookup — still no visible flash.
  */
-export function NavShell() {
-  return (
-    <Suspense fallback={<NavSkeleton />}>
-      <NavMember />
-    </Suspense>
-  );
-}
-
-async function NavMember() {
+export async function NavShell() {
   const member = await getCurrentMember();
   return (
     <Nav member={member ? { name: member.name, position: member.position } : null} />
