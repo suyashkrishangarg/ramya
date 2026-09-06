@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Hero } from "@/components/home/hero";
@@ -19,6 +20,21 @@ type HomeProps = {
 
 export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams;
+
+  // safety net — if supabase's url configuration falls back to the wrong host
+  // (site url still defaulting to localhost), send the oauth code to the real
+  // callback handler instead of showing a dead `/?code=…` page.
+  const oauthCode = params.code;
+  if (typeof oauthCode === "string" && oauthCode.length > 0) {
+    const qs = new URLSearchParams();
+    for (const [key, value] of Object.entries(params)) {
+      if (key === "google" || key === "welcome") continue;
+      if (Array.isArray(value)) value.forEach((v) => qs.append(key, v));
+      else if (value !== undefined) qs.set(key, value);
+    }
+    redirect(`/auth/callback?${qs.toString()}`);
+  }
+
   const googleNotice =
     params.google === "unconfigured"
       ? "unconfigured"
