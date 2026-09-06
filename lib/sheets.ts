@@ -21,13 +21,21 @@ export function sheetsConfigured(): boolean {
 }
 
 function webappUrl(): string | null {
-  const url = process.env.SHEETS_WEBAPP_URL;
-  return url && url.startsWith("http") ? url : null;
+  const url = process.env.SHEETS_WEBAPP_URL?.trim();
+  if (!url) return null;
+  if (!url.startsWith("http")) {
+    console.warn("[sheets] SHEETS_WEBAPP_URL is set but does not start with http://");
+    return null;
+  }
+  return url;
 }
 
 async function post(payload: unknown): Promise<boolean> {
   const url = webappUrl();
-  if (!url) return false;
+  if (!url) {
+    console.warn("[sheets] push skipped — SHEETS_WEBAPP_URL not configured");
+    return false;
+  }
   try {
     const res = await fetch(url, {
       method: "POST",
@@ -36,8 +44,15 @@ async function post(payload: unknown): Promise<boolean> {
       redirect: "follow",
       signal: AbortSignal.timeout(9_000),
     });
+    if (!res.ok) {
+      const text = await res.text();
+      console.warn(`[sheets] web app returned ${res.status}: ${text.slice(0, 200)}`);
+    } else {
+      console.log("[sheets] push ok");
+    }
     return res.ok;
-  } catch {
+  } catch (err) {
+    console.warn(`[sheets] push failed: ${err instanceof Error ? err.message : String(err)}`);
     return false;
   }
 }
