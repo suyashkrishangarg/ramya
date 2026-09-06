@@ -3,6 +3,7 @@ import { after } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase";
 import { joinWaitlist, toSheetRow } from "@/lib/waitlist";
 import { pushRowToSheet } from "@/lib/sheets";
+import { sendWaitlistWelcome } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +28,7 @@ export async function GET(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
     if (!user?.email) throw new Error("google account returned no email");
+    const userEmail = user.email;
 
     const meta = (user.user_metadata ?? {}) as Record<string, string | undefined>;
     const result = await joinWaitlist({
@@ -40,6 +42,11 @@ export async function GET(request: NextRequest) {
     if (!result.alreadyRegistered) {
       after(async () => {
         await pushRowToSheet(toSheetRow(result.row));
+        await sendWaitlistWelcome({
+          email: userEmail,
+          name: result.row.name,
+          position: result.position,
+        });
       });
     }
 

@@ -8,6 +8,8 @@ import {
 } from "@/lib/waitlist";
 import { pushRowToSheet } from "@/lib/sheets";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
+import { MEMBER_COOKIE, memberCookieOptions } from "@/lib/member";
+import { sendWaitlistWelcome } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -52,17 +54,28 @@ export async function POST(req: NextRequest) {
 
   try {
     const result = await joinWaitlist({ email, name: body.name?.trim() || null });
-    // mirror to google sheets after the response is sent — realtime, never blocking
+    // mirror to google sheets + send the welcome email after the response is
+    // sent — realtime, never blocking, and email failures are swallowed
     after(async () => {
       await pushRowToSheet(toSheetRow(result.row));
+      if (!result.alreadyRegistered) {
+        await sendWaitlistWelcome({
+          email,
+          name: result.row.name,
+          position: result.position,
+        });
+      }
     });
     const count = await getWaitlistCount();
-    return NextResponse.json({
+    const res = NextResponse.json({
       ok: true,
       position: result.position,
       alreadyRegistered: result.alreadyRegistered,
       count,
     });
+    // remember the membership so the site shows profile state on return visits
+    res.cookies.set(MEMBER_COOKIE, email, memberCookieOptions());
+    return res;
   } catch (err) {
     console.error("[waitlist] join failed:", err);
     return NextResponse.json(

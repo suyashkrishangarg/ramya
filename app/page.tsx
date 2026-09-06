@@ -9,8 +9,8 @@ import { Engine } from "@/components/home/engine";
 import { Market } from "@/components/home/market";
 import { Vision } from "@/components/home/vision";
 import { FinalCta } from "@/components/home/final-cta";
-import { createSupabaseServerClient, supabaseConfigured } from "@/lib/supabase";
-import { getMemberByEmail } from "@/lib/waitlist";
+import { supabaseConfigured } from "@/lib/supabase";
+import { getCurrentMember } from "@/lib/member";
 
 export const dynamic = "force-dynamic";
 
@@ -42,32 +42,15 @@ export default async function Home({ searchParams }: HomeProps) {
         ? "error"
         : null;
 
-  // returning google member (supabase session) → personalized hero state
-  let welcome: { name: string | null; position: number } | null = null;
-  if (supabaseConfigured()) {
-    try {
-      const supabase = await createSupabaseServerClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user?.email) {
-        const row = await getMemberByEmail(user.email);
-        if (row) {
-          const meta = (user.user_metadata ?? {}) as Record<string, string | undefined>;
-          welcome = { name: meta.full_name ?? row.name, position: row.position ?? 0 };
-        }
-      }
-    } catch {
-      /* db or session unavailable — degrade to the standard capsule */
-    }
-  }
+  // signed-in google member or signed-up email member → personalized state
+  const member = await getCurrentMember();
 
   return (
     <>
-      <Nav />
+      <Nav member={member} />
       <main className="flex-1">
         <Hero
-          welcome={welcome}
+          welcome={member ? { name: member.name, position: member.position } : null}
           googleNotice={googleNotice}
           googleConfigured={supabaseConfigured()}
         />
@@ -77,7 +60,7 @@ export default async function Home({ searchParams }: HomeProps) {
         <Engine />
         <Market />
         <Vision />
-        <FinalCta googleConfigured={supabaseConfigured()} />
+        <FinalCta googleConfigured={supabaseConfigured()} member={member} />
       </main>
       <Footer />
     </>

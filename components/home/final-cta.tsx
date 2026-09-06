@@ -1,8 +1,14 @@
 import { Reveal } from "@/components/reveal";
 import { WaitlistCapsule } from "@/components/waitlist-capsule";
 import { GoogleButton } from "@/components/google-button";
+import { MemberCard } from "@/components/member-card";
 
-export function FinalCta({ googleConfigured }: { googleConfigured: boolean }) {
+type FinalCtaProps = {
+  googleConfigured: boolean;
+  member?: { name: string | null; position: number } | null;
+};
+
+export function FinalCta({ googleConfigured, member }: FinalCtaProps) {
   return (
     <section id="waitlist" className="scroll-mt-20 border-t border-line">
       <div className="mx-auto max-w-6xl px-5 py-24 sm:py-32">
@@ -26,8 +32,14 @@ export function FinalCta({ googleConfigured }: { googleConfigured: boolean }) {
         </Reveal>
         <Reveal delay={0.18}>
           <div className="mt-10 flex flex-col items-start gap-5">
-            <WaitlistCapsule />
-            {googleConfigured && <GoogleButton label="sign up with google" />}
+            {member ? (
+              <MemberCard name={member.name} position={member.position} />
+            ) : (
+              <>
+                <WaitlistCapsule />
+                {googleConfigured && <GoogleButton label="sign up with google" />}
+              </>
+            )}
           </div>
         </Reveal>
       </div>

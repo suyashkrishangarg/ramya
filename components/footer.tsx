@@ -39,7 +39,6 @@ export async function Footer() {
               <li><Link href="/#why" className="link-draw text-muted transition-colors duration-150 hover:text-ink">why ramya</Link></li>
               <li><Link href="/#engine" className="link-draw text-muted transition-colors duration-150 hover:text-ink">engine</Link></li>
               <li><Link href="/#market" className="link-draw text-muted transition-colors duration-150 hover:text-ink">market</Link></li>
-              <li><Link href="/admin" className="link-draw text-dim transition-colors duration-150 hover:text-ink">admin</Link></li>
             </ul>
           </div>
           <div>

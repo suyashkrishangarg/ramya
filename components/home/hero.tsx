@@ -1,6 +1,7 @@
 import { Reveal } from "@/components/reveal";
 import { WaitlistCapsule } from "@/components/waitlist-capsule";
 import { GoogleButton } from "@/components/google-button";
+import { MemberCard } from "@/components/member-card";
 
 type HeroProps = {
   welcome: { name: string | null; position: number } | null;
@@ -52,7 +53,7 @@ export function Hero({ welcome, googleNotice, googleConfigured }: HeroProps) {
         <Reveal delay={0.24} className="md:col-span-7">
           <div className="flex flex-col items-start gap-5">
             {welcome ? (
-              <WelcomeCard name={welcome.name} position={welcome.position} />
+              <MemberCard name={welcome.name} position={welcome.position} />
             ) : (
               <>
                 <WaitlistCapsule />
@@ -84,21 +85,5 @@ export function Hero({ welcome, googleNotice, googleConfigured }: HeroProps) {
         </Reveal>
       </div>
     </section>
-  );
-}
-
-function WelcomeCard({ name, position }: { name: string | null; position: number }) {
-  return (
-    <div className="w-full max-w-md border border-line-strong bg-surface px-5 py-4">
-      <p className="font-mono text-[11px] tracking-[0.12em] text-muted">
-        {name ? `welcome back, ${name}` : "welcome back"}
-      </p>
-      <p className="mt-2 font-mono text-3xl font-bold tracking-[-0.02em] text-ink">
-        #{String(position).padStart(5, "0")}
-      </p>
-      <p className="mt-2 text-xs leading-relaxed text-muted">
-        you&apos;re on the waitlist — we&apos;ll email you when the beta opens.
-      </p>
-    </div>
   );
 }

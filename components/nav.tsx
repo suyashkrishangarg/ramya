@@ -12,7 +12,9 @@ const LINKS = [
   { href: "/#vision", label: "vision" },
 ];
 
-export function Nav() {
+type NavMember = { name: string | null; position: number } | null;
+
+export function Nav({ member }: { member?: NavMember }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -47,9 +49,15 @@ export function Nav() {
         </div>
 
         <div className="hidden items-center gap-4 md:flex">
-          <PrimaryButton href="/#waitlist" className="px-4 py-1.5 text-[13px]">
-            join ➔
-          </PrimaryButton>
+          {member ? (
+            <PrimaryButton href="/profile" className="px-4 py-1.5 text-[13px]">
+              profile ➔
+            </PrimaryButton>
+          ) : (
+            <PrimaryButton href="/#waitlist" className="px-4 py-1.5 text-[13px]">
+              join ➔
+            </PrimaryButton>
+          )}
         </div>
 
         <button
@@ -83,9 +91,15 @@ export function Nav() {
                 {l.label}
               </Link>
             ))}
-            <PrimaryButton href="/#waitlist" className="mt-3">
-              join waitlist ➔
-            </PrimaryButton>
+            {member ? (
+              <PrimaryButton href="/profile" className="mt-3">
+                profile ➔
+              </PrimaryButton>
+            ) : (
+              <PrimaryButton href="/#waitlist" className="mt-3">
+                join waitlist ➔
+              </PrimaryButton>
+            )}
           </div>
         </div>
       )}

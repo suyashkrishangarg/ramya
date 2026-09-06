@@ -7,6 +7,9 @@ import { Reveal } from "@/components/reveal";
 import { PrimaryButton, GhostButton } from "@/components/buttons";
 import { FinalCta } from "@/components/home/final-cta";
 import { supabaseConfigured } from "@/lib/supabase";
+import { getCurrentMember } from "@/lib/member";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "products",
@@ -79,10 +82,12 @@ const AUDIENCES = [
   "power users",
 ];
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const member = await getCurrentMember();
+
   return (
     <>
-      <Nav />
+      <Nav member={member} />
       <main className="flex-1">
         {/* hero */}
         <section className="mx-auto max-w-6xl px-5 pb-20 pt-32 sm:pt-40">
@@ -207,7 +212,7 @@ export default function ProductsPage() {
           </div>
         </section>
 
-        <FinalCta googleConfigured={supabaseConfigured()} />
+        <FinalCta googleConfigured={supabaseConfigured()} member={member} />
       </main>
       <Footer />
     </>
