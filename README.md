@@ -1,18 +1,26 @@
 # ramya ai — website + waitlist platform
 
-the official site for **ramya ai** (`ramyaai.tech`) — homepage, products, waitlist
-with **real google sign-up**, a **realtime google sheets mirror**, and an **admin
-console** with a site-links editor — built with next.js, tailwind v4, framer
-motion and supabase.
+the official site for **ramya ai** ([ramyaai.tech](https://ramyaai.tech)) —
+homepage, products, about, contact, signup, member profiles, waitlist
+with **real google sign-up**, a **realtime google sheets mirror**, welcome emails,
+and an **admin console** with a site-links editor — built with next.js 16,
+tailwind v4, motion and supabase.
+
+live site: **https://ramyaai.tech** · admin console at **/admin**
 
 ```
-homepage      /            monochrome editorial landing + waitlist capsule
-products      /products    aura desktop (beta) · ramya flow (video & animation · in idea)
+homepage      /              monochrome editorial landing + waitlist capsule
+products      /products      aura desktop (beta) · ramya flow (video & animation · in idea)
+about         /about         story + principles
+contact       /contact         contact page
+signup        /signup        waitlist signup page
+profile       /profile       member profile page
 waitlist api  POST /api/waitlist     email join → db + realtime sheets push
 counter       GET  /api/waitlist      live member count
 google oauth  /auth/google           real "continue with google" via supabase
+signout       /auth/signout          member sign out
 admin login   /admin                credential login (env-based)
-dashboard     /admin (after login)  stats · members table · csv · sheet sync · site links
+dashboard     /admin (after login)  stats · members table · csv · sheet sync · member delete · backfill emails · site links
 ```
 
 design language: **deep forest black & pure white** — hairline borders, mono
@@ -127,6 +135,8 @@ ssl is automatic. propagation: minutes → a few hours.
 - stats: total / today / 7-day / google-vs-email split
 - members table: search, source filters, sorting, **csv export**
 - **sync to sheets**: full reconcile of the google sheet
+- **delete member**: remove a member (+ their supabase auth user when `SUPABASE_SERVICE_ROLE_KEY` is set)
+- **backfill emails**: send welcome emails to members who missed theirs
 - **site links editor**: add github / x / linkedin / youtube / discord / demo
   video / docs links anytime — they appear in the site footer instantly
   (empty field = hidden)
@@ -147,32 +157,46 @@ launch**. signup + admin login are rate-limited; the signup form has a honeypot.
 | database | supabase postgres + drizzle orm (embedded pglite fallback for local dev) |
 | google auth | supabase auth (`@supabase/ssr`) — pkce flow, session cookies |
 | admin sessions | jose-signed httpOnly jwt cookie |
+| welcome email | resend — skipped + logged when `RESEND_API_KEY` is unset |
 | sheets mirror | google apps script web app webhook (realtime, keyless) |
+
+> env template: copy [`.env.example`](.env.example) → `.env.local`.
+> welcome emails come from `EMAIL_FROM` once your domain is verified in resend;
+> member deletion also removes the supabase auth user when `SUPABASE_SERVICE_ROLE_KEY` is set.
 
 ## project structure
 
 ```
 app/
-  page.tsx                  homepage
-  products/page.tsx         aura desktop + ramya flow
-  auth/google/route.ts      google sign-up start (supabase)
-  auth/callback/route.ts    oauth callback → waitlist + sheets
-  admin/page.tsx            dashboard (session-guarded)
-  admin/login/page.tsx      credential login
-  api/waitlist/route.ts     POST join · GET count
-  api/admin/…               login · logout · sync-sheets · settings
-  layout.tsx  globals.css   fonts · monochrome tokens
-  sitemap.ts  robots.ts  icon.png  not-found.tsx
+  (public)/page.tsx           homepage (hero · faq · cost calculator · live counter)
+  (public)/products/page.tsx  aura desktop + ramya flow (task-router demo)
+  (public)/about · /contact   editorial pages
+  signup/page.tsx             waitlist signup page
+  profile/                    member profile page
+  auth/google/route.ts        google sign-up start (supabase)
+  auth/callback/route.ts      oauth callback → waitlist + sheets
+  auth/signout/route.ts       sign out
+  admin/page.tsx              dashboard (session-guarded)
+  admin/login/page.tsx        credential login
+  api/waitlist/route.ts       POST join · GET count
+  api/admin/…                 login · logout · sync-sheets · settings · delete-member · backfill-emails
+  layout.tsx  globals.css   fonts (space grotesk + geist + jetbrains mono) · monochrome tokens
+  sitemap.ts  robots.ts  manifest.ts  icon.png  opengraph-image.tsx  not-found.tsx  template.tsx
 components/
-  nav · footer · logo · section · list-row · marquee
-  reveal · stat-counter · buttons · badge-pill
-  waitlist-capsule · google-button
-  home/…  admin/…
+  nav · nav-shell · footer · logo · section · list-row · marquee
+  reveal · stat-counter · live-counter · scroll-progress · cursor-glow · glow
+  buttons · badge-pill · hero-lines · member-card · json-ld · skeletons
+  faq · cost-calculator · task-router · waitlist-capsule · google-button
+  home/…  admin/dashboard · admin/login-form · admin/site-links (+ stats.ts)
 lib/
   db · schema · bootstrap   drizzle over supabase postgres / pglite
   waitlist · settings       join logic · site links store
+  member · email            member helpers · resend welcome emails
   supabase                  auth client (google provider)
-  session                   admin jwt sessions
+  session                   admin jwt sessions (jose)
   sheets · rate-limit       realtime mirror · abuse guard
+  link-keys · supabase helpers
 google-apps-script/Code.gs  paste into your sheet's apps script
+docs/  designguidelines.md · websitespec.md
+implementation_plan.md      website v2 plan (typography · faq · calculator · task-router)
 ```
