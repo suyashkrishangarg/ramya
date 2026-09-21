@@ -50,6 +50,10 @@ local.db*
 server.log
 build.log
 
+# python bytecode (agent-service + any tooling)
+__pycache__/
+*.py[cod]
+
 # pitch deck + large media must never ship in the repo
 ramya presentation.pdf
 *.mp4

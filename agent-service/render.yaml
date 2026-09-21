@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: ramya-agent-harness
+    runtime: docker
+    plan: starter
+    autoDeploy: false
+    healthCheckPath: /healthz
+    envVars:
+      - key: LLM_BASE_URL
+        value: https://integrate.api.nvidia.com/v1
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        value: deepseek-ai/deepseek-v4-flash-0731
+      - key: JINA_API_KEY
+        sync: false
+      - key: SCRAPL_ALLOW_BROWSER
+        value: "0"
+      - key: SCRAPL_BROWSER_PAGES
+        value: "2"
+      - key: BACKEND_SECRET
+        sync: false
+      - key: SITE_ORIGIN
+        value: https://ramyaai.tech
+      - key: AGENT_WALL_TIME_S
+        value: "120"
+      - key: AGENT_MAX_QUERIES
+        value: "6"
+      - key: AGENT_MAX_PAGES
+        value: "8"
+      - key: AGENT_MAX_QUESTIONS
+        value: "3"
+      - key: AGENT_MAX_DECIDE_STEPS
+        value: "8"
