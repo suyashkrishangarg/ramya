@@ -1,23 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+type ChatRow = { email: string; grantedAt: string | null };
+
 /**
- * chat beta access manager (admin console) — grant/revoke who can use /chat.
- * env `CHAT_BETA_EMAILS` grants on top of this list.
+ * chat beta access manager (admin console) — lists grants and lets you add
+ * emails by hand. the members table's per-row "+ chat" buttons share the same
+ * grant/revoke state, so both stay in sync.
  */
 export function ChatAccess({
-  initial,
+  rows,
+  busy,
+  onGrant,
+  onRevoke,
 }: {
-  initial: { email: string; grantedAt: string | null }[];
+  rows: ChatRow[];
+  busy: boolean;
+  onGrant: (email: string) => Promise<{ ok: boolean; error?: string }>;
+  onRevoke: (email: string) => Promise<{ ok: boolean; error?: string }>;
 }) {
-  const router = useRouter();
-  const [rows, setRows] = useState(initial);
   const [draft, setDraft] = useState("");
-  const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 
   function flash(text: string) {
@@ -36,51 +41,15 @@ export function ChatAccess({
       flash("✕ already on the list");
       return;
     }
-    setBusy(true);
-    try {
-      const res = await fetch("/api/admin/chat-access", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: clean }),
-      });
-      const data = (await res.json()) as { ok: boolean; error?: string };
-      if (!data.ok) {
-        flash(`✕ ${data.error ?? "grant failed"}`);
-        return;
-      }
-      setRows((r) => [...r, { email: clean, grantedAt: new Date().toISOString() }]);
-      setDraft("");
-      flash(`✓ ${clean} can now use the chat beta`);
-      router.refresh();
-    } catch {
-      flash("✕ network error");
-    } finally {
-      setBusy(false);
-    }
+    const res = await onGrant(clean);
+    if (res.ok) setDraft("");
+    else flash(`✕ ${res.error ?? "grant failed"}`);
   }
 
   async function revoke(email: string) {
     if (busy) return;
-    setBusy(true);
-    try {
-      const res = await fetch("/api/admin/chat-access", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const data = (await res.json()) as { ok: boolean; error?: string };
-      if (!data.ok) {
-        flash(`✕ ${data.error ?? "revoke failed"}`);
-        return;
-      }
-      setRows((r) => r.filter((x) => x.email !== email));
-      flash(`✓ ${email} revoked`);
-      router.refresh();
-    } catch {
-      flash("✕ network error");
-    } finally {
-      setBusy(false);
-    }
+    const res = await onRevoke(email);
+    if (!res.ok) flash(`✕ ${res.error ?? "revoke failed"}`);
   }
 
   return (
@@ -89,7 +58,7 @@ export function ChatAccess({
         <div>
           <h2 className="text-sm font-semibold tracking-[-0.01em] text-ink">chat beta access</h2>
           <p className="mt-0.5 font-mono text-[10px] tracking-[0.05em] text-dim">
-            who can open /chat · env CHAT_BETA_EMAILS grants on top of this
+            who can open /chat · grant from the members table or below · env CHAT_BETA_EMAILS grants on top
           </p>
         </div>
         <p className="font-mono text-[11px] text-dim">{rows.length} granted</p>

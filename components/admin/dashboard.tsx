@@ -48,6 +48,61 @@ export function Dashboard({
     [members],
   );
 
+  /* chat beta access — single source of truth for the table buttons + panel */
+  const [chatRows, setChatRows] = useState(chatAccess);
+  const [chatBusyEmail, setChatBusyEmail] = useState<string | null>(null);
+  const grantedSet = useMemo(() => new Set(chatRows.map((r) => r.email)), [chatRows]);
+
+  async function grantChat(email: string): Promise<{ ok: boolean; error?: string }> {
+    if (grantedSet.has(email) || chatBusyEmail !== null) return { ok: false, error: "busy" };
+    setChatBusyEmail(email);
+    try {
+      const res = await fetch("/api/admin/chat-access", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = (await res.json()) as { ok: boolean; error?: string };
+      if (data.ok) {
+        setChatRows((r) => [...r, { email, grantedAt: new Date().toISOString() }]);
+        flash(`✓ ${email} can now use the chat beta`);
+        return { ok: true };
+      }
+      flash(`✕ ${data.error ?? "grant failed"}`);
+      return { ok: false, error: data.error };
+    } catch {
+      flash("✕ network error during grant");
+      return { ok: false, error: "network error" };
+    } finally {
+      setChatBusyEmail(null);
+    }
+  }
+
+  async function revokeChat(email: string): Promise<{ ok: boolean; error?: string }> {
+    if (chatBusyEmail !== null) return { ok: false, error: "busy" };
+    setChatBusyEmail(email);
+    try {
+      const res = await fetch("/api/admin/chat-access", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = (await res.json()) as { ok: boolean; error?: string };
+      if (data.ok) {
+        setChatRows((r) => r.filter((x) => x.email !== email));
+        flash(`✓ ${email} revoked from chat beta`);
+        return { ok: true };
+      }
+      flash(`✕ ${data.error ?? "revoke failed"}`);
+      return { ok: false, error: data.error };
+    } catch {
+      flash("✕ network error during revoke");
+      return { ok: false, error: "network error" };
+    } finally {
+      setChatBusyEmail(null);
+    }
+  }
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     let rows = members;
@@ -264,7 +319,12 @@ export function Dashboard({
 
         {/* chat beta access */}
         <div className="mt-6">
-          <ChatAccess initial={chatAccess} />
+          <ChatAccess
+            rows={chatRows}
+            busy={chatBusyEmail !== null}
+            onGrant={grantChat}
+            onRevoke={revokeChat}
+          />
         </div>
         {/* controls */}
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -311,6 +371,7 @@ export function Dashboard({
                 <tr className="font-mono text-[10px] tracking-[0.1em] text-dim">
                   <th className="px-5 py-3 font-medium">#</th>
                   <th className="px-5 py-3 font-medium">email</th>
+                  <th className="px-5 py-3 font-medium">chat</th>
                   <th className="px-5 py-3 font-medium">name</th>
                   <th className="px-5 py-3 font-medium">source</th>
                   <th className="px-5 py-3 font-medium">joined</th>
@@ -328,6 +389,29 @@ export function Dashboard({
                       {String(m.position ?? 0).padStart(5, "0")}
                     </td>
                     <td className="px-5 py-3 font-mono text-[13px] text-ink">{m.email}</td>
+                    <td className="px-5 py-3">
+                      {grantedSet.has(m.email) ? (
+                        <button
+                          type="button"
+                          onClick={() => void revokeChat(m.email)}
+                          disabled={chatBusyEmail !== null}
+                          title={`revoke chat beta access for ${m.email}`}
+                          className="border border-white/40 bg-white/10 px-2 py-1 font-mono text-[11px] tracking-[0.03em] text-ink transition-colors duration-150 hover:border-white/60 disabled:opacity-40"
+                        >
+                          {chatBusyEmail === m.email ? "…" : "✓ chat"}
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => void grantChat(m.email)}
+                          disabled={chatBusyEmail !== null}
+                          title={`grant chat beta access to ${m.email}`}
+                          className="border border-line px-2 py-1 font-mono text-[11px] tracking-[0.03em] text-muted transition-colors duration-150 hover:border-line-strong hover:text-ink disabled:opacity-40"
+                        >
+                          {chatBusyEmail === m.email ? "…" : "+ chat"}
+                        </button>
+                      )}
+                    </td>
                     <td className="px-5 py-3 text-muted">{m.name ?? "—"}</td>
                     <td className="px-5 py-3">
                       <BadgePill
@@ -368,7 +452,7 @@ export function Dashboard({
                 ))}
                 {filtered.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="px-5 py-16 text-center">
+                    <td colSpan={8} className="px-5 py-16 text-center">
                       <p className="font-mono text-sm text-dim">
                         {members.length === 0
                           ? "no members yet — share ramyaai.tech and watch this fill up."
