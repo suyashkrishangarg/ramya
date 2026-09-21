@@ -5,6 +5,7 @@ import { getAdminSession } from "@/lib/session";
 import { getAllRows } from "@/lib/waitlist";
 import { getSettings } from "@/lib/settings";
 import { sheetsConfigured } from "@/lib/sheets";
+import { listChatAccess } from "@/lib/chat-access";
 
 export const dynamic = "force-dynamic";
 
@@ -48,12 +49,23 @@ export default async function AdminPage() {
     /* fresh database — settings editor still renders */
   }
 
+  let chatAccess: { email: string; grantedAt: string | null }[] = [];
+  try {
+    chatAccess = (await listChatAccess()).map((r) => ({
+      email: r.email,
+      grantedAt: r.grantedAt ? r.grantedAt.toISOString() : null,
+    }));
+  } catch {
+    /* fresh database — chat access panel stays empty */
+  }
+
   return (
     <Dashboard
       adminEmail={session.email}
       members={members}
       sheetsConfigured={sheetsConfigured()}
       settings={settings}
+      chatAccess={chatAccess}
     />
   );
 }

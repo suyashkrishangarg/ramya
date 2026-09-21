@@ -129,6 +129,44 @@ ssl is automatic. propagation: minutes → a few hours.
 
 ---
 
+## chat beta · /chat (invite-only)
+
+agentic chat at **ramyaai.tech/chat** — the python harness lives in
+[`agent-service/`](./agent-service) (deployed on render), this site gates
+access and proxies to it.
+
+**how access works** (two layers, server-side only):
+
+1. visitor must be a signed-in member (google or email) → else `/signup?next=/chat`
+2. member's email must be on the beta list:
+   - `CHAT_BETA_EMAILS` env var (comma-separated, fastest for early testers), or
+   - a `chat_access` table row (the `grantChatAccess()` helper writes these)
+
+both sources grant — no nav link, `noindex`, blocked in robots, absent from
+the sitemap.
+
+**vercel env vars** (in addition to the ones above):
+
+| var | value |
+| :-- | :-- |
+| `PYTHON_AGENT_URL` | render service url, e.g. `https://ramya-agent-harness.onrender.com` |
+| `CHAT_BACKEND_SECRET` | same value as render's `BACKEND_SECRET` |
+
+**keeping render awake (free plan):** cron-job.org (free) → new cronjob →
+url `<render-url>/healthz`, every 5 minutes, GET. failure alerts via email.
+free render sleeps after ~15 min idle; a cold start looks like a 502 on the
+first chat message ("agent is waking up — try again in ~30 seconds").
+
+**limits while in beta:** 5 messages / 30s burst and 20 runs / hour per
+member (bump in `app/api/chat/route.ts`). hobby plan functions cap streams
+at 60s — `chat` and `research` fit; `deep` may truncate (upgrade for pro).
+
+---
+
+## admin console
+
+---
+
 ## admin console
 
 - url **/admin** (linked in the footer) · login: `ADMIN_EMAIL` + `ADMIN_PASSWORD`

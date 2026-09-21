@@ -42,6 +42,18 @@ export function ensureSchema(): Promise<void> {
           updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
         )
       `);
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS chat_access (
+          id SERIAL PRIMARY KEY,
+          email TEXT NOT NULL,
+          granted_by TEXT,
+          note TEXT,
+          granted_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `);
+      await db.execute(
+        sql`CREATE UNIQUE INDEX IF NOT EXISTS chat_access_email_key ON chat_access (email)`,
+      );
     })().catch((err) => {
       ready = null;
       throw err;

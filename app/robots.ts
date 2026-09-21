@@ -5,7 +5,7 @@ const base = process.env.NEXT_PUBLIC_SITE_URL || "https://ramyaai.tech";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: ["/admin", "/api"] },
+      { userAgent: "*", allow: "/", disallow: ["/admin", "/api", "/chat"] },
     ],
     sitemap: `${base}/sitemap.xml`,
   };

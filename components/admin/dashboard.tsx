@@ -6,6 +6,7 @@ import { Logo } from "@/components/logo";
 import { BadgePill } from "@/components/badge-pill";
 import { StatCounter } from "@/components/stat-counter";
 import { SiteLinks } from "./site-links";
+import { ChatAccess } from "./chat-access";
 import { computeStatsFromMembers } from "./stats";
 
 export type DashboardMember = {
@@ -25,11 +26,13 @@ export function Dashboard({
   members,
   sheetsConfigured,
   settings,
+  chatAccess,
 }: {
   adminEmail: string;
   members: DashboardMember[];
   sheetsConfigured: boolean;
   settings: Record<string, string>;
+  chatAccess: { email: string; grantedAt: string | null }[];
 }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -257,6 +260,11 @@ export function Dashboard({
         {/* site links editor */}
         <div className="mt-6">
           <SiteLinks initial={settings} />
+        </div>
+
+        {/* chat beta access */}
+        <div className="mt-6">
+          <ChatAccess initial={chatAccess} />
         </div>
         {/* controls */}
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

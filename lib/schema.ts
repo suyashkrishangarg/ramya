@@ -25,6 +25,20 @@ export const settings = pgTable("settings", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+/** chat beta allowlist — one row per granted email (env list also grants) */
+export const chatAccess = pgTable(
+  "chat_access",
+  {
+    id: serial("id").primaryKey(),
+    email: text("email").notNull(),
+    grantedBy: text("granted_by"),
+    note: text("note"),
+    grantedAt: timestamp("granted_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("chat_access_email_key").on(t.email)],
+);
+
 export type WaitlistRow = typeof waitlist.$inferSelect;
 export type NewWaitlistRow = typeof waitlist.$inferInsert;
 export type SettingRow = typeof settings.$inferSelect;
+export type ChatAccessRow = typeof chatAccess.$inferSelect;
