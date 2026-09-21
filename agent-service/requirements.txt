@@ -6,7 +6,7 @@ readability-lxml>=0.8.1
 # scrapling 0.4.x is the current pypi line (there is no 3.x).
 # [fetchers,rag] pulls curl_cffi (fetchers engine) + markdown extras.
 # browser escalation (dynamic/stealthy) additionally needs playwright at runtime.
-"scrapling[fetchers,rag]>=0.4"
+scrapling[fetchers,rag]>=0.4
 curl_cffi>=0.7
 pydantic>=2.7
 pytest>=8.0
